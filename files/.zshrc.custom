@@ -1,0 +1,92 @@
+#!/usr/bin/env zsh
+
+# vim:syntax=zsh
+# vim:filetype=zsh
+
+# file location: ${HOME}/.zshrc.custom
+
+# Note: This file depends on the ${HOME}/.zshrc that is also shared for some shell functions
+
+load_file_if_exists "${HOME}/.aliases"
+
+if [[ "${OSTYPE}" =~ 'darwin' ]] && command_exists brew; then
+  export MANPATH="${HOMEBREW_PREFIX}/share/man${MANPATH+:$MANPATH}"
+  export INFOPATH="${HOMEBREW_PREFIX}/share/info${INFOPATH+:$INFOPATH}"
+
+  export HOMEBREW_NO_ANALYTICS=1
+  export HOMEBREW_CLEANUP_MAX_AGE_DAYS=3
+  export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3
+  export HOMEBREW_BAT=1
+  export HOMEBREW_VERBOSE_USING_DOTS=1
+  export HOMEBREW_CASK_OPTS="--no-quarantine"
+
+  command_exists mise && _evalcache mise activate zsh
+
+# command_exists direnv && _evalcache direnv hook zsh
+
+# load_file_if_exists "${HOME}/.config/devbox/lib/use_devbox.sh"
+
+  CURL_DIR=${HOMEBREW_PREFIX}/opt/curl
+  if [ -d "${CURL_DIR}" ]; then
+    export PATH="${CURL_DIR}/bin${PATH+:$PATH}"
+  fi
+fi
+
+if [[ "${OSTYPE}" =~ "darwin" ]]; then
+  # setopt glob_dots                # no special treatment for file names with a leading dot
+  # setopt no_auto_menu             # require an extra TAB press to open the completion menu
+  # setopt auto_menu                # automatically use menu completion
+  # setopt list_beep
+  # setopt correct_all              # autocorrect commands; also enables arguments autocorrect
+  # setopt always_to_end            # move cursor to end if word had one match
+
+  setopt append_history
+  setopt share_history            # share history between different instances of the shell
+  setopt inc_append_history       # append command to history file immediately after execution
+  setopt extended_history         # save each command's beginning timestamp and the duration to the history file
+  setopt hist_ignore_all_dups     # do not put duplicated command into history list
+  setopt hist_ignore_dups
+  setopt hist_allow_clobber
+  setopt hist_reduce_blanks       # remove unnecessary blanks
+  setopt hist_save_no_dups        # do not save duplicated command
+  setopt auto_cd                  # cd into directory if the name is not an alias or function, but matches a directory
+  setopt auto_pushd               # Make cd push the old directory onto the directory stack.
+  setopt pushd_silent             # Do not print the directory stack after pushd or popd.
+  setopt pushd_ignore_dups        # Don’t push multiple copies of the same directo
+  setopt beep
+  setopt extended_glob
+  setopt local_options
+  setopt auto_list                # Automatically list choices on an ambiguous completion.
+  setopt list_ambiguous
+  setopt list_types               # If the file being listed is a directory, show a trailing slash
+
+  # console colors
+  autoload -U colors && colors
+fi
+
+### Fix slowness of pastes with zsh-syntax-highlighting.zsh
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic
+}
+
+pastefinish() {
+  zle -N self-insert "${OLD_SELF_INSERT}"
+}
+
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+### Fix slowness of pastes
+
+# Use bat to colorize man pages
+command_exists bat && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+command_exists _awsp && alias awsp="source _awsp"
+
+# iTerm2 shell integrations
+load_file_if_exists "${HOME}/.iterm2_shell_integration.zsh"
+
+# remove empty components to avoid '::' ending up + resulting in './' being in $PATH, etc
+path=( "${path[@]:#}" )
+fpath=( "${fpath[@]:#}" )
+infopath=( "${infopath[@]:#}" )
