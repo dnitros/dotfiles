@@ -38,7 +38,7 @@ zstyle ':omz:update' mode auto
 zstyle ':omz:update' frequency 1
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # oh-my-zsh plugins
 plugins=(evalcache gradle zsh-autosuggestions zsh-syntax-highlighting)
