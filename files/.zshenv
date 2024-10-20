@@ -1,12 +1,5 @@
 #!/usr/bin/env zsh
 
-# vim:syntax=zsh
-# vim:filetype=zsh
-
-# file location: ${HOME}/.zshenv
-
-# invoked by all invocations of Zsh, so we should keep it small and merely initialise necessary variables.
-
 # https://blog.patshead.com/2011/04/improve-your-oh-my-zsh-startup-time-maybe.html
 skip_global_compinit=1
 

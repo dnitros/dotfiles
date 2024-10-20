@@ -1,25 +1,11 @@
 #!/usr/bin/env zsh
 
-# vim:syntax=zsh
-# vim:filetype=zsh
-
-# file location: ${HOME}/.zshrc
-
 # Optimizing zsh: https://htr3n.github.io/2018/07/faster-zsh/
 
 # for profiling zsh, see: https://unix.stackexchange.com/a/329719/27109
 zmodload zsh/zprof
 
-load_file_if_exists() {
-  test -e "$1" && source "$1" || true
-}
-
-command_exists() {
-  type $1 &> /dev/null 2>&1
-}
-
-# Path to your oh-my-zsh installation.
-export ZSH=${HOME}/.oh-my-zsh
+type load_file_if_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ${HOME}/.zshrc.
 load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-${USERNAME}.zsh"
@@ -27,6 +13,9 @@ load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-${USERNAME}.zsh"
 load_file_if_exists "${HOME}/.p10k.zsh"
 load_file_if_exists "${HOMEBREW_PREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme"  # intel
 load_file_if_exists "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"  # arm
+
+# Path to your oh-my-zsh installation.
+export ZSH=${HOME}/.oh-my-zsh
 
 # Set theme to load - possible values "random", "robbyrussell", "powerlevel10k/powerlevel10k", "agnoster"
 ZSH_THEME="robbyrussell"
@@ -41,7 +30,11 @@ zstyle ':omz:update' frequency 1
 # ENABLE_CORRECTION="true"
 
 # oh-my-zsh plugins
-plugins=(evalcache gradle zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(evalcache gradle fast-syntax-highlighting zsh-autosuggestions)
+
+# according to https://github.com/zsh-users/zsh-completions/issues/603#issue-373185486, this can't be added as a plugin to omz for the fpath to work correctly
+ZSH_CUSTOM="${ZSH_CUSTOM:-"${ZSH:-"${HOME}/.oh-my-zsh"}/custom"}"
+is_directory "${ZSH_CUSTOM}/plugins/zsh-completions/src" && fpath+="${ZSH_CUSTOM}/plugins/zsh-completions/src"
 
 load_file_if_exists ${ZSH}/oh-my-zsh.sh
 
@@ -54,6 +47,9 @@ command_exists vi && test -z "${EDITOR}" && export EDITOR="vi"
 [[ "${ARCH}" =~ "x86" ]] && export ARCHFLAGS="-arch x86_64"
 
 load_file_if_exists "${HOME}/.zshrc.custom"
+
+# remove duplicates from some env vars
+typeset -gU cdpath CPPFLAGS cppflags FPATH fpath infopath LDFLAGS ldflags MANPATH manpath PATH path PKG_CONFIG_PATH
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"

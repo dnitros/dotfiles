@@ -1,15 +1,8 @@
 #!/usr/bin/env zsh
 
-# vim:syntax=zsh
-# vim:filetype=zsh
-
-# file location: ${HOME}/.zshrc.custom
-
-# Note: This file depends on the ${HOME}/.zshrc that is also shared for some shell functions
-
 load_file_if_exists "${HOME}/.aliases"
 
-if [[ "${OSTYPE}" =~ 'darwin' ]] && command_exists brew; then
+if is_macos && command_exists brew; then
   export MANPATH="${HOMEBREW_PREFIX}/share/man${MANPATH+:$MANPATH}"
   export INFOPATH="${HOMEBREW_PREFIX}/share/info${INFOPATH+:$INFOPATH}"
 
@@ -27,12 +20,12 @@ if [[ "${OSTYPE}" =~ 'darwin' ]] && command_exists brew; then
 # load_file_if_exists "${HOME}/.config/devbox/lib/use_devbox.sh"
 
   CURL_DIR=${HOMEBREW_PREFIX}/opt/curl
-  if [ -d "${CURL_DIR}" ]; then
+  if is_directory "${CURL_DIR}"; then
     export PATH="${CURL_DIR}/bin${PATH+:$PATH}"
   fi
 fi
 
-if [[ "${OSTYPE}" =~ "darwin" ]]; then
+if is_macos; then
   # setopt glob_dots                # no special treatment for file names with a leading dot
   # setopt no_auto_menu             # require an extra TAB press to open the completion menu
   # setopt auto_menu                # automatically use menu completion

@@ -10,7 +10,7 @@
 .awsp
 .cache/
 .colima/
-.config/
+.config
 .docker/
 .gradle/
 .idea/
@@ -22,6 +22,7 @@
 .p10k.zsh
 .sdkman/
 .sdkmanrc
+.shellrc
 .ssh/known_hosts
 .ssh/known_hosts.old
 .terraform.d/
@@ -44,6 +45,7 @@ Brewfile
 Brewfile.lock.json
 Desktop/
 Documents/
+dotfiles/
 Downloads/
 Library/
 Movies/
