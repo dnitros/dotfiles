@@ -3,19 +3,21 @@
 type command_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 
 alias path='echo -e ${PATH//:/\\n}'
-alias vi='vim'
-alias cat='bat'
-alias top='htop'
+command_exists nvim && alias vi='nvim'
+command_exists bat && alias cat='bat'
+command_exists btop && alias top='btop'
 
 alias code-gist='code ${DOTFILES_DIR} ${HOME}/.gitconfig-*'
 
 # brew aliases
-if is_macos; then
+if is_macos && command_exists brew; then
   alias bcg='brew outdated --greedy'
   alias bcug='brew upgrade --greedy'
   alias bupc='brew bundle check || brew bundle --all --cleanup; brew bundle cleanup -f; brew cleanup --prune=all; brew autoremove; brew upgrade'
 fi
 
 # docker
-alias docker_cleanup='docker system prune --volumes -f'
-alias docker_list='docker ps -a && docker images'
+if command_exists docker; then
+  alias docker_cleanup='docker system prune --volumes -f'
+  alias docker_list='docker ps -a && docker images'
+fi

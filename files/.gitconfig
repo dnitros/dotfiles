@@ -43,6 +43,9 @@
   excludesFile = ~/.gitignore_global
   pager = delta
   whitespace = fix
+[delta]
+  side-by-side = true
+  true-color = always
 [diff]
   colorMoved = default
 [fetch]
@@ -77,6 +80,7 @@
   showSignature = true
 [merge]
   autoStash = true
+  conflictstyle = diff3
   defaultToUpstream = true
   ff = only
   renamelimit = 15000

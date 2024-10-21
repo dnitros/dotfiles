@@ -13,6 +13,7 @@
 .config
 .docker/
 .gradle/
+.gk/
 .idea/
 .kube/
 .lesshst
