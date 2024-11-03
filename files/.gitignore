@@ -12,6 +12,7 @@
 .colima/
 .config
 .docker/
+.dotfiles/
 .gradle/
 .gk/
 .idea/
@@ -32,6 +33,7 @@
 .tldrc/
 .viminfo
 .vimrc
+.vim/
 .vscode/
 .zcompdump*
 .zprofile
@@ -46,7 +48,6 @@ Brewfile
 Brewfile.lock.json
 Desktop/
 Documents/
-dotfiles/
 Downloads/
 Library/
 Movies/
@@ -57,3 +58,4 @@ go/
 log/*.log
 logs
 project/
+tmux*.log
