@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 symlink() {
 	printf 'SYMLINK %55s -> %s\n' "${1/#$HOME/~}" "${2/#$HOME/~}"
