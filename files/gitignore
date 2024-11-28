@@ -10,6 +10,7 @@
 .awsp
 .cache/
 .colima/
+!.config/bat/
 !.config/nvim/
 .config
 .docker/

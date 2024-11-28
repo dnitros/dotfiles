@@ -17,8 +17,8 @@ do
   basename_entry=$(basename "$entry")
   [[ -d ${HOME}/$basename_entry && ! -L ${HOME}/$basename_entry ]] && rm -r "${HOME:?}/$basename_entry"
 
-  if [[ $basename_entry == .git* ]]; then
-    copy "$FILES/$basename_entry" "${HOME}/$basename_entry"
+  if [[ $basename_entry == git* ]]; then
+    copy "$FILES/$basename_entry" "${HOME}/.$basename_entry"
   else
     symlink "$FILES/$basename_entry" "${HOME}/$basename_entry"
   fi
