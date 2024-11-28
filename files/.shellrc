@@ -5,10 +5,12 @@ if [[ $(tput colors) -ge 256 ]]; then
     RED=$(tput setaf 196)
     GREEN=$(tput setaf 46)
     YELLOW=$(tput setaf 226)
+    CYAN=$(tput setaf 51)
 else
     RED=$(tput setaf 1)
     GREEN=$(tput setaf 2)
     YELLOW=$(tput setaf 3)
+    CYAN=$(tput setaf 6)
 fi
 NO_COLOR=$(tput sgr0)
 BOLD=$(tput bold)
@@ -23,6 +25,10 @@ red() {
 
 yellow() {
   printf "${YELLOW}%s${NO_COLOR}" "$1"
+}
+
+cyan() {
+  printf "${CYAN}%s${NO_COLOR}" "$1"
 }
 
 error() {
