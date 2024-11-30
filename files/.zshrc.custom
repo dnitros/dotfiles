@@ -2,6 +2,8 @@
 
 load_file_if_exists "${HOME}/.aliases"
 
+path_add "${PERSONAL_BIN_DIR}"
+
 if is_macos && command_exists brew; then
   export MANPATH="${HOMEBREW_PREFIX}/share/man${MANPATH+:$MANPATH}"
   export INFOPATH="${HOMEBREW_PREFIX}/share/info${INFOPATH+:$INFOPATH}"
@@ -19,10 +21,8 @@ if is_macos && command_exists brew; then
 
 # load_file_if_exists "${HOME}/.config/devbox/lib/use_devbox.sh"
 
-  CURL_DIR=${HOMEBREW_PREFIX}/opt/curl
-  if is_directory "${CURL_DIR}"; then
-    export PATH="${CURL_DIR}/bin${PATH+:$PATH}"
-  fi
+  CURL_DIR="${HOMEBREW_PREFIX}/opt/curl"
+  path_add "${CURL_DIR}/bin" before
 fi
 
 if is_macos; then
@@ -83,3 +83,5 @@ load_file_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 path=( "${path[@]:#}" )
 fpath=( "${fpath[@]:#}" )
 infopath=( "${infopath[@]:#}" )
+manpath=( "${manpath[@]:#}" )
+# path_clean

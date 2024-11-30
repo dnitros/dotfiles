@@ -24,6 +24,7 @@
 .local/
 .m2/
 .oh-my-zsh/
+.packages
 .p10k.zsh
 .sdkman/
 .shellrc

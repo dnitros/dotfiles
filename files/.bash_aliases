@@ -2,6 +2,7 @@
 
 type command_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 
+alias path='echo -e ${PATH//:/\\n}'
 # Enable color support of ls
 if ls --color=auto &>/dev/null; then
 	alias ls='ls -p --color=auto'

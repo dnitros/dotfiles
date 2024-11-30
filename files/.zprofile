@@ -15,5 +15,6 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_CONFIG_HOME="${HOME}/.config"
 
 export DOTFILES_DIR="${HOME}/.dotfiles"
+export PERSONAL_BIN_DIR="${HOME}/bin"
 
 export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH+:$PATH}"
