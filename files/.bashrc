@@ -35,6 +35,7 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_CONFIG_HOME="${HOME}/.config"
 
 # Dotfiles location
+export LOCAL_BIN_DIR="${HOME}/.bin"
 export DOTFILES_DIR="${HOME}/.dotfiles"
 
 # Support colors in less
@@ -75,6 +76,8 @@ set_prompt_colors 24
 
 PROMPT_COMMAND=_prompt_command
 PROMPT_DIRTRIM=6
+
+export PATH="${LOCAL_BIN_DIR}/neovim/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games:${PATH+:$PATH}"
 
 # Load external files
 load_file_if_exists "${HOME}/.bash_aliases"

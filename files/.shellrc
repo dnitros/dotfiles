@@ -79,15 +79,6 @@ command_exists() {
   type "${1}" &> /dev/null 2>&1
 }
 
-load_zsh_configs() {
-  command_exists omz && omz reload && return
-
-  file_list=('.zshenv' '.zprofile' '.zshrc')
-  for file in "${file_list[@]}"; do
-    load_file_if_exists "${HOME}/${file}"
-  done
-}
-
 is_macos() {
   [[ "${OSTYPE}" =~ ^darwin ]]
 }
@@ -115,10 +106,19 @@ if is_macos; then
     softwareupdate -ia
     rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
   }
+
+  load_zsh_configs() {
+    command_exists omz && omz reload && return
+
+    file_list=('.zshenv' '.zprofile' '.zshrc')
+    for file in "${file_list[@]}"; do
+      load_file_if_exists "${HOME}/${file}"
+    done
+  }
 fi
 
-if is_linux; then
-  #Prompt colors
+if (is_linux || (is_macos && [[ "${SHELL}" == */bash ]])); then
+  # Prompt colors
   COLOR256=()
   COLOR256[0]="${RED}"
   COLOR256[256]="${NO_COLOR}"
@@ -162,5 +162,12 @@ if is_linux; then
       printf "\x1b[38;5;${i}mcolor %d\n" "$i"
     done
     tput sgr0
+  }
+
+  load_bash_configs() {
+    file_list=('.bash_profile' '.bashrc' '.bash_aliases', '.bashrc.local', '.bash_completion')
+    for file in "${file_list[@]}"; do
+      load_file_if_exists "${HOME}/${file}"
+    done
   }
 fi
