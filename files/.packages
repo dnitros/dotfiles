@@ -1,0 +1,9 @@
+build-essential
+ca-certificates
+cmake
+curl
+gettext
+git
+ninja-build
+unzip
+vim
