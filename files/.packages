@@ -1,7 +1,12 @@
 build-essential
 ca-certificates
 cmake
+containerd.io
 curl
+docker-buildx-plugin
+docker-ce
+docker-ce-cli
+docker-compose-plugin
 gettext
 git
 ninja-build

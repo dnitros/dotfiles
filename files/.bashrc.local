@@ -2,6 +2,9 @@
 
 path_add "${HOME}/bin" before
 path_add "${HOME}/.local/bin" before
+path_add "${PERSONAL_BIN_DIR}/neovim/bin" before
+
+load_file_if_exists "${HOME}/.bash_aliases"
 
 path_remove "/usr/local/games"
 path_remove "/usr/games"

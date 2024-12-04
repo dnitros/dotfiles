@@ -76,12 +76,6 @@ set_prompt_colors 24
 PROMPT_COMMAND=_prompt_command
 PROMPT_DIRTRIM=6
 
-path_add "${PERSONAL_BIN_DIR}/neovim/bin" before
-
-# Load external files
-load_file_if_exists "${HOME}/.bash_aliases"
-load_file_if_exists "${HOME}/.bashrc.local"
-
 # load completion
 if ! shopt -oq posix; then
     for file in \
@@ -91,3 +85,5 @@ if ! shopt -oq posix; then
         load_file_if_exists "$file"
     done
 fi
+
+load_file_if_exists "${HOME}/.bashrc.local"
