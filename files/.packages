@@ -10,5 +10,6 @@ docker-compose-plugin
 gettext
 git
 ninja-build
+tailscale
 unzip
 vim
