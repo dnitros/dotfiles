@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+DOTFILES_DIR=${DOTFILES_DIR:-"${HOME}/.dotfiles"}
+
 symlink() {
 	printf 'SYMLINK %55s -> %s\n' "${1/#$HOME/~}" "${2/#$HOME/~}"
 	ln -nsf "$@"

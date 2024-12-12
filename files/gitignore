@@ -10,6 +10,7 @@
 .awsp
 .bash_aliases
 .bash_completion
+.bash_history
 .bash_profile
 .bashrc
 .bashrc.local
