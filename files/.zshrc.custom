@@ -5,7 +5,7 @@ load_file_if_exists "${HOME}/.aliases"
 path_add "${PERSONAL_BIN_DIR}"
 
 if is_macos && command_exists brew; then
-  export MANPATH="${HOMEBREW_PREFIX}/share/man${MANPATH+:$MANPATH}"
+  export MANPATH="${HOMEBREW_PREFIX}/share/man:$(manpath)"
   export INFOPATH="${HOMEBREW_PREFIX}/share/info${INFOPATH+:$INFOPATH}"
 
   export HOMEBREW_NO_ANALYTICS=1
