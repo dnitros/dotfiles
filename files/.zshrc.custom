@@ -37,8 +37,8 @@ if is_macos; then
   setopt share_history            # share history between different instances of the shell
   setopt inc_append_history       # append command to history file immediately after execution
   setopt extended_history         # save each command's beginning timestamp and the duration to the history file
-  setopt hist_ignore_all_dups     # do not put duplicated command into history list
-  setopt hist_ignore_dups
+  setopt HIST_IGNORE_ALL_DUPS     # do not put duplicated command into history list
+  setopt HIST_IGNORE_DUPS
   setopt hist_allow_clobber
   setopt hist_reduce_blanks       # remove unnecessary blanks
   setopt hist_save_no_dups        # do not save duplicated command
