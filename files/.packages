@@ -7,8 +7,10 @@ docker-buildx-plugin
 docker-ce
 docker-ce-cli
 docker-compose-plugin
+fzf
 gettext
 git
+luarocks
 ninja-build
 tailscale
 unzip
