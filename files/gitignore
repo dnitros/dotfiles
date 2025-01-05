@@ -58,8 +58,8 @@ Movies/
 Music/
 Pictures/
 Public/
+dev/
 go/
 log/*.log
 logs
-project/
 tmux*.log

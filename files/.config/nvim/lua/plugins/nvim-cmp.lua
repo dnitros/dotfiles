@@ -16,7 +16,7 @@ return {
 
     cmp.setup({
       completion = {
-        completeopt = "menu,menuone,preview", --,noselect",
+        completeopt = "menu,menuone,noselect,preview",
       },
       mapping = cmp.mapping.preset.insert({
         ["<C-k>"] = cmp.mapping.select_prev_item(),
