@@ -30,8 +30,14 @@ return {
   opts = {
     filesystem = {
       filtered_items = {
-        hide_dotfiles = true,
-        hide_gitignored = false,
+        visible = false,
+        hide_dotfiles = false,
+        hide_gitignored = true,
+        never_show = {
+          ".DS_Store",
+          "thumbs.db",
+          ".git",
+        },
       },
       hijack_netrw_behavior = "open_default",
     },

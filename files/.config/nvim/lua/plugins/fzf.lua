@@ -20,4 +20,10 @@ return {
       desc = "fzf live grep",
     },
   },
+  opts = {
+    grep = {
+      hidden = true,
+      follow = true,
+    },
+  },
 }
