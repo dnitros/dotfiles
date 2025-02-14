@@ -63,6 +63,8 @@ if is_macos && command_exists brew; then
 
   command_exists mise && _evalcache mise activate zsh
 
+  command_exists zoxide && _evalcache zoxide init zsh
+
 # command_exists direnv && _evalcache direnv hook zsh
 
 # load_file_if_exists "${HOME}/.config/devbox/lib/use_devbox.sh"
