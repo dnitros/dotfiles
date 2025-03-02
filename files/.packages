@@ -13,5 +13,6 @@ git
 luarocks
 ninja-build
 tailscale
+tmux
 unzip
 vim
