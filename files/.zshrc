@@ -8,14 +8,13 @@ zmodload zsh/zprof
 type load_file_if_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ${HOME}/.zshrc.
-load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-${USERNAME}.zsh"
+load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 
 load_file_if_exists "${HOME}/.p10k.zsh"
-load_file_if_exists "${HOMEBREW_PREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme"  # intel
-load_file_if_exists "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"  # arm
+load_file_if_exists "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"
 
 # Path to your oh-my-zsh installation.
-export ZSH=${HOME}/.oh-my-zsh
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set theme to load - possible values "random", "robbyrussell", "powerlevel10k/powerlevel10k", "agnoster"
 ZSH_THEME="robbyrussell"
@@ -26,22 +25,25 @@ zstyle ':omz:update' mode auto
 # possible values: "1", "3", "7" (in days)
 zstyle ':omz:update' frequency 1
 
+# Set plugin options that are needed before each plugin is loaded
+zstyle :omz:plugins:iterm2 shell-integration yes
+
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
 # oh-my-zsh plugins
-plugins=(evalcache gradle fast-syntax-highlighting zsh-autosuggestions)
+plugins=(evalcache fast-syntax-highlighting gradle iterm2 zsh-autosuggestions)
 
 # according to https://github.com/zsh-users/zsh-completions/issues/603#issue-373185486, this can't be added as a plugin to omz for the fpath to work correctly
 ZSH_CUSTOM="${ZSH_CUSTOM:-"${ZSH:-"${HOME}/.oh-my-zsh"}/custom"}"
 is_directory "${ZSH_CUSTOM}/plugins/zsh-completions/src" && fpath+="${ZSH_CUSTOM}/plugins/zsh-completions/src"
 
-load_file_if_exists ${ZSH}/oh-my-zsh.sh
+load_file_if_exists "${ZSH}/oh-my-zsh.sh"
 
 # Preferred editor for remote sessions
-test -n "${SSH_CONNECTION}" && export EDITOR="vi"
+is_non_zero_string "${SSH_CONNECTION}" && export EDITOR="vi"
 
-command_exists vi && test -z "${EDITOR}" && export EDITOR="vi"
+command_exists vi && ! is_non_zero_string "${EDITOR}" && export EDITOR="vi"
 
 # Compilation flags
 [[ "${ARCH}" =~ "x86" ]] && export ARCHFLAGS="-arch x86_64"
@@ -69,8 +71,8 @@ if is_macos && command_exists brew; then
 
 # load_file_if_exists "${HOME}/.config/devbox/lib/use_devbox.sh"
 
-CURL_DIR="${HOMEBREW_PREFIX}/opt/curl"
-path_add "${CURL_DIR}/bin" before
+  CURL_DIR="${HOMEBREW_PREFIX}/opt/curl"
+  path_add "${CURL_DIR}/bin" before
 fi
 
 if is_macos; then
@@ -105,27 +107,10 @@ if is_macos; then
   autoload -U colors && colors
 fi
 
-### Fix slowness of pastes with zsh-syntax-highlighting.zsh
-pasteinit() {
-  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
-  zle -N self-insert url-quote-magic
-}
-
-pastefinish() {
-  zle -N self-insert "${OLD_SELF_INSERT}"
-}
-
-zstyle :bracketed-paste-magic paste-init pasteinit
-zstyle :bracketed-paste-magic paste-finish pastefinish
-### Fix slowness of pastes
-
 # Use bat to colorize man pages
 command_exists bat && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 command_exists _awsp && alias awsp="source _awsp"
-
-# iTerm2 shell integrations
-load_file_if_exists "${HOME}/.iterm2_shell_integration.zsh"
 
 # remove empty components to avoid '::' ending up + resulting in './' being in $PATH, etc
 path=( "${path[@]:#}" )
