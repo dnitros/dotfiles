@@ -9,6 +9,5 @@ vim.filetype.add({
     [".zprofile"] = "sh",
     [".zshenv"] = "sh",
     [".zshrc"] = "sh",
-    [".zshrc.custom"] = "sh",
   },
 })

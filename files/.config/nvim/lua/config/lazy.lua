@@ -15,25 +15,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  {
-    import = "plugins",
+  spec = {
+    {
+      import = "plugins",
+    },
+    {
+      import = "plugins.lsp",
+    },
   },
-  {
-    import = "plugins.lsp",
+  defaults = {
+    lazy = true,
+  },
+  checker = {
+    enabled = true,
   },
 })
-
-return function(opts)
-  opts = vim.tbl_deep_extend("force", {
-    defaults = { lazy = true },
-    install = { colorscheme = { "habamax" } },
-    checker = { enabled = true },
-    performance = {
-      cache = {
-        enabled = true,
-      },
-    },
-    debug = false,
-  }, opts or {})
-  require("lazy").setup(opts)
-end
