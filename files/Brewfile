@@ -1,7 +1,5 @@
 cask_args appdir: '/Applications', no_quarantine: true
 
-tap 'homebrew/bundle'
-
 # ----------------------------------------------------------------------------------------------------------
 brew 'bash'
 brew 'bat'
@@ -15,10 +13,10 @@ brew 'git-extras'
 brew 'git-interactive-rebase-tool'
 brew 'go'
 brew 'jq'
-brew 'luarocks'
+# brew 'luarocks' # will enable after sometime
 brew 'mas'
 brew 'mise'
-brew 'neovim'
+# brew 'neovim'  # will enable after sometime
 brew 'powerlevel10k'
 brew 'ripgrep'
 brew 'tig'
@@ -31,6 +29,7 @@ brew 'zoxide'
 brew 'zsh'
 
 # ----------------------------------------------------------------------------------------------------------
+cask '1password'
 cask 'appcleaner'
 cask 'arc'
 cask 'brave-browser'
@@ -39,12 +38,13 @@ cask 'flycut'
 cask 'font-meslo-lg-nerd-font'
 cask 'iterm2'
 cask 'keybase'
+cask 'kitty'
 cask 'raycast'
 cask 'rectangle'
 cask 'slack'
 cask 'tailscale'
 cask 'visual-studio-code'
-cask 'yubico-yubikey-manager'
+cask 'whatsapp'
 cask 'zoom'
 
 # ----------------------------------------------------------------------------------------------------------
