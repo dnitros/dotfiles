@@ -17,10 +17,12 @@ alias md='mkdir -p'
 alias rd='rmdir'
 alias -- -='cd -'
 
-if command_exists nvim; then
-  alias vi='nvim'
-elif command_exists vim; then
-  alias vi='vim'
-fi
+# neovim broken on `v0.11.1`
+# many plugin needs fix - will revisit
+# if command_exists nvim; then
+#   alias vi='nvim'
+# elif command_exists vim; then
+#   alias vi='vim'
+# fi
 command_exists bat && alias cat='bat'
 command_exists btop && alias top='btop'
