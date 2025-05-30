@@ -13,9 +13,114 @@ INSTALL_HELM=${INSTALL_HELM:-true}
 ARCH=$(dpkg --print-architecture)
 OS_TYPE=$(uname | tr '[:upper:]' '[:lower:]')
 CPU_ARCH=$(uname -m)
+INSTALL_PATH=${PERSONAL_BIN_DIR:-"${HOME}/bin"}
 
-# Prompt user unless skipping confirmation
-confirm_action() {
+dep_update() {
+  manage_apt_packages
+  install_or_update_jq
+  install_or_update_delta
+  install_or_update_zoxide
+  install_or_update_k3s
+  install_or_update_helm
+}
+
+manage_apt_packages() {
+  info "📦 Checking for APT updates and installing from .packages"
+
+  info "🔍 Updating package list..."
+  sudo apt-get update -qq
+
+  info "📋 Checking for upgradable packages..."
+  UPGRADABLE=$(apt list --upgradable 2>/dev/null | grep -v "Listing" || true)
+
+  if is_non_zero_string "$UPGRADABLE"; then
+    info "🔄 Upgradable packages detected:"
+    echo "$UPGRADABLE" | awk '{print "  ⬆️ " $1}'
+    if _confirm_action "⚠️  Do you want to upgrade all packages?"; then
+      sudo apt-get upgrade -y
+    else
+      warn "⏭️  Skipped upgrade"
+    fi
+  else
+    success "✅ All packages are up to date"
+  fi
+
+  if is_file "${HOME}/.packages"; then
+    info "📦 Ensuring required packages from .packages are installed..."
+    xargs -a "${HOME}/.packages" sudo apt-get install -y -q
+  else
+    warn "⚠️  No .packages file found at ${HOME}/.packages"
+  fi
+}
+
+install_or_update_jq() {
+  if ! _verify_binary_update "jq" INSTALL_JQ "jqlang/jq" "jq --version"; then
+    return
+  fi
+
+  local latest="$BINARY_LATEST_VERSION"
+
+  if _confirm_action "⚠️  Proceed to install/update jq $latest?"; then
+    destination="${HOME}/bin/jq"
+    url="https://github.com/jqlang/jq/releases/download/${latest}/jq-${OS_TYPE}-${ARCH}"
+    info "⬇️ Downloading jq from $url..."
+    curl -fsSL "$url" -o "$destination" || { error "❌ Failed to download jq binary"; return; }
+    chmod +x "$destination"
+    success "✅ jq is now at version $latest"
+  else
+    warn "⏭️  Skipped jq install/update"
+  fi
+}
+
+install_or_update_delta() {
+  _install_or_update_binary_from_github \
+    "delta" \
+    INSTALL_GIT_DELTA \
+    "dandavison/delta" \
+    "delta --version | awk '{print \$2}'" \
+    "https://github.com/dandavison/delta/releases/download/\${latest}/delta-\${latest}-${CPU_ARCH}-unknown-${OS_TYPE}-gnu.tar.gz" \
+    1
+}
+
+install_or_update_zoxide() {
+  _install_or_update_binary_from_github \
+    "zoxide" \
+    INSTALL_ZOXIDE \
+    "ajeetdsouza/zoxide" \
+    "zoxide --version | awk '{print \"v\"\$2}'" \
+    "https://github.com/ajeetdsouza/zoxide/releases/download/\${latest}/zoxide-\$(echo \${latest} | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')-${CPU_ARCH}-unknown-${OS_TYPE}-musl.tar.gz" \
+    0
+}
+
+install_or_update_k3s() {
+  if ! _verify_binary_update "k3s" INSTALL_K3S "k3s-io/k3s" "k3s --version | head -n1 | awk '{print \$3}'"; then
+    return
+  fi
+
+  local latest="$BINARY_LATEST_VERSION"
+
+  if _confirm_action "⚠️  Proceed to install/update k3s $latest?"; then
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="$latest" K3S_KUBECONFIG_MODE=644 sh - || {
+      error "❌ Failed to install/update k3s"
+      return
+    }
+    success "✅ k3s installed/updated to version $latest"
+  else
+    warn "⏭️  Skipped k3s install/update"
+  fi
+}
+
+install_or_update_helm() {
+  _install_or_update_binary_from_github \
+    "helm" \
+    INSTALL_HELM \
+    "helm/helm" \
+    "helm version --short --client | cut -d+ -f1" \
+    "https://get.helm.sh/helm-\${latest}-${OS_TYPE}-${ARCH}.tar.gz" \
+    1
+}
+
+_confirm_action() {
   local prompt="$1"
   if [[ "$SKIP_CONFIRMATION" == true ]]; then
     return 0
@@ -24,11 +129,75 @@ confirm_action() {
   [[ "$confirm" =~ ^[Yy]$ ]]
 }
 
-download_and_install_tar_binary() {
+_verify_binary_update() {
+  local binary_name="$1"
+  local install_flag_name="$2"
+  local install_flag_value="${!2}"
+  local repo="$3"
+  local current_version_fetch_cmd="$4"
+
+  [[ "$install_flag_value" != true ]] && {
+    warn "⚠️  Skipping $binary_name installation (${install_flag_name}=${install_flag_value})"
+    return 1
+  }
+
+  local latest
+  latest=$(curl -fsSL "https://api.github.com/repos/${repo}/releases/latest" |
+           grep -oE '"tag_name"\s*:\s*"[^"]+"' |
+           sed -E 's/^"tag_name"\s*:\s*"([^"]+)"$/\1/' |
+           grep -E '[0-9]+\.[0-9]+\.[0-9]+')
+
+  [[ -z "$latest" ]] && {
+    error "❌ Failed to fetch latest $binary_name version"
+    return 1
+  }
+
+  if command_exists "$binary_name"; then
+    local current
+    current=$(eval "$current_version_fetch_cmd")
+    if [[ "$current" == "$latest" ]]; then
+      success "✅ $binary_name is up to date ($current)"
+      return 1
+    else
+      info "🔄 Updating $binary_name: $current → $latest"
+    fi
+  else
+    info "⬇️ Installing $binary_name $latest"
+  fi
+
+  export BINARY_LATEST_VERSION="$latest"
+  return 0
+}
+
+_install_or_update_binary_from_github() {
+  local binary_name="$1"
+  local install_flag_name="$2"
+  local install_flag_value="${!2}"
+  local repo="$3"
+  local current_version_fetch_cmd="$4"
+  local url_template="$5"
+  local strip_component="$6"
+
+  if ! _verify_binary_update "$binary_name" "$install_flag_name" "$repo" "$current_version_fetch_cmd"; then
+    return
+  fi
+
+  local latest="$BINARY_LATEST_VERSION"
+
+  if _confirm_action "⚠️  Proceed to install/update $binary_name $latest?"; then
+    local url
+    url=$(eval "echo \"$url_template\"")
+    _download_and_install_tar_binary "$url" "$binary_name" "$strip_component"
+  else
+    warn "⏭️  Skipped $binary_name install/update"
+  fi
+}
+
+_download_and_install_tar_binary() {
   local url="$1"
   local binary_name="$2"
-  local install_path="$3"
-  local strip_components="$4"
+  local strip_components="$3"
+  local install_binary_path="${INSTALL_PATH}/${binary_name}"
 
   local tmpdir
   tmpdir=$(mktemp -d)
@@ -47,191 +216,8 @@ download_and_install_tar_binary() {
     return 1
   fi
 
-  info "🚚 Installing $binary_name to $install_path"
-  cp "$extracted_binary" "$install_path"
-  chmod +x "$install_path"
-  success "✅ $binary_name installed at $install_path"
+  info "🚚 Installing $binary_name to $install_binary_path"
+  cp "$extracted_binary" "$install_binary_path"
+  chmod +x "$install_binary_path"
+  success "✅ $binary_name installed at $install_binary_path"
 }
-
-dep_update() {
-  manage_apt_packages
-  install_or_update_jq
-  install_or_update_git_delta
-  install_or_update_zoxide
-  install_or_update_k3s
-  install_or_update_helm
-}
-
-manage_apt_packages() {
-  info "📦 Checking for APT updates and installing from .packages"
-
-  info "🔍 Updating package list..."
-  sudo apt-get update -qq
-
-  info "📋 Checking for upgradable packages..."
-  UPGRADABLE=$(apt list --upgradable 2>/dev/null | grep -v "Listing" || true)
-
-  if is_non_zero_string "$UPGRADABLE"; then
-    info "🔄 Upgradable packages detected:"
-    echo "$UPGRADABLE" | awk '{print "  ⬆️ " $1}'
-    if confirm_action "⚠️  Do you want to upgrade all packages?"; then
-      sudo apt-get upgrade -y
-    else
-      warn "⏭️  Skipped upgrade"
-    fi
-  else
-    success "✅ All packages are up to date"
-  fi
-
-  if is_file "${HOME}/.packages"; then
-    info "📦 Ensuring required packages from .packages are installed..."
-    xargs -a "${HOME}/.packages" sudo apt-get install -y -q
-  else
-    warn "⚠️  No .packages file found at ${HOME}/.packages"
-  fi
-}
-
-install_or_update_jq() {
-  [[ "$INSTALL_JQ" != true ]] && warn "⚠️  Skipping jq installation (INSTALL_JQ=$INSTALL_JQ)" && return
-
-  LATEST=$(curl -fsSL https://api.github.com/repos/jqlang/jq/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-  [[ -z "$LATEST" ]] && error "❌ Failed to fetch latest jq version" && return
-
-  if command_exists jq; then
-    CURRENT=$(jq --version)
-    if [[ "$CURRENT" == "$LATEST" ]]; then
-      success "✅ jq is up to date ($CURRENT)"
-      return
-    else
-      info "🔄 Updating jq: $CURRENT → $LATEST"
-    fi
-  else
-    info "⬇️ Installing jq $LATEST"
-  fi
-
-  if confirm_action "⚠️  Proceed to install/update jq $LATEST?"; then
-    DEST="${HOME}/bin/jq"
-    URL="https://github.com/jqlang/jq/releases/download/${LATEST}/jq-${OS_TYPE}-${ARCH}"
-    curl -fsSL "$URL" -o "$DEST" || { error "❌ Failed to download jq binary"; return; }
-    chmod +x "$DEST"
-    success "✅ jq is now at version $LATEST"
-  else
-    warn "⏭️  Skipped jq install/update"
-  fi
-}
-
-install_or_update_git_delta() {
-  [[ "$INSTALL_GIT_DELTA" != true ]] && warn "⚠️  Skipping git-delta installation (INSTALL_GIT_DELTA=$INSTALL_GIT_DELTA)" && return
-
-  LATEST=$(curl -fsSL https://api.github.com/repos/dandavison/delta/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-  [[ -z "$LATEST" ]] && error "❌ Failed to fetch latest git-delta version" && return
-
-  if command_exists delta; then
-    CURRENT=$(delta --version | awk '{print $2}')
-    if [[ "$CURRENT" == "$LATEST" ]]; then
-      success "✅ git-delta is up to date ($CURRENT)"
-      return
-    else
-      info "🔄 Updating git-delta: $CURRENT → $LATEST"
-    fi
-  else
-    info "⬇️ Installing git-delta $LATEST"
-  fi
-
-  if confirm_action "⚠️  Proceed to install/update git-delta $LATEST?"; then
-    URL="https://github.com/dandavison/delta/releases/download/${LATEST}/delta-${LATEST}-${CPU_ARCH}-unknown-${OS_TYPE}-gnu.tar.gz"
-    BINARY_NAME="delta"
-    INSTALL_PATH="${HOME}/bin/delta"
-    STRIP_COMPONENTS=1
-    download_and_install_tar_binary "$URL" "$BINARY_NAME" "$INSTALL_PATH" "$STRIP_COMPONENTS"
-  else
-    warn "⏭️  Skipped git-delta install/update"
-  fi
-}
-
-install_or_update_zoxide() {
-  [[ "$INSTALL_ZOXIDE" != true ]] && warn "⚠️  Skipping zoxide installation (INSTALL_ZOXIDE=$INSTALL_ZOXIDE)" && return
-
-  LATEST=$(curl -fsSL https://api.github.com/repos/ajeetdsouza/zoxide/releases/latest | grep '"tag_name":' | sed -E 's/.*"v?([^"]+)".*/\1/')
-  [[ -z "$LATEST" ]] && error "❌ Failed to fetch latest zoxide version" && return
-
-  if command_exists zoxide; then
-    CURRENT=$(zoxide --version | awk '{print $2}')
-    if [[ "$CURRENT" == "$LATEST" ]]; then
-      success "✅ zoxide is up to date ($CURRENT)"
-      return
-    else
-      info "🔄 Updating zoxide: $CURRENT → $LATEST"
-    fi
-  else
-    info "⬇️ Installing zoxide $LATEST"
-  fi
-
-  if confirm_action "⚠️  Proceed to install/update zoxide $LATEST?"; then
-    URL="https://github.com/ajeetdsouza/zoxide/releases/download/v${LATEST}/zoxide-${LATEST}-${CPU_ARCH}-unknown-${OS_TYPE}-musl.tar.gz"
-    BINARY_NAME="zoxide"
-    INSTALL_PATH="${HOME}/bin/zoxide"
-    STRIP_COMPONENTS=0
-    download_and_install_tar_binary "$URL" "$BINARY_NAME" "$INSTALL_PATH" "$STRIP_COMPONENTS"
-  else
-    warn "⏭️  Skipped zoxide install/update"
-  fi
-}
-
-install_or_update_k3s() {
-  [[ "$INSTALL_K3S" != true ]] && warn "⚠️  Skipping k3s installation (INSTALL_K3S=$INSTALL_K3S)" && return
-
-  LATEST=$(curl -fsSL https://api.github.com/repos/k3s-io/k3s/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-  [[ -z "$LATEST" ]] && error "❌ Failed to fetch latest k3s version" && return
-
-  if command_exists k3s; then
-    CURRENT=$(k3s --version | head -n1 | awk '{print $3}')
-    if [[ "$CURRENT" == "$LATEST" ]]; then
-      success "✅ k3s is up to date ($CURRENT)"
-      return
-    else
-      info "🔄 Updating k3s: $CURRENT → $LATEST"
-    fi
-  else
-    info "⬇️ Installing k3s $LATEST"
-  fi
-
-  if confirm_action "⚠️  Proceed to install/update k3s $LATEST?"; then
-    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="$LATEST" K3S_KUBECONFIG_MODE=644 sh - || {
-      error "❌ Failed to install/update k3s"
-      return
-    }
-    success "✅ k3s installed/updated to version $LATEST"
-  else
-    warn "⏭️  Skipped k3s install/update"
-  fi
-}
-
-install_or_update_helm() {
-  [[ "$INSTALL_HELM" != true ]] && warn "⚠️  Skipping helm installation (INSTALL_HELM=$INSTALL_HELM)" && return
-
-  LATEST=$(curl -fsSL https://api.github.com/repos/helm/helm/releases/latest | grep '"tag_name":' | sed -E 's/.*"v?([^"]+)".*/\1/')
-  [[ -z "$LATEST" ]] && error "❌ Failed to fetch latest helm version" && return
-
-  if command_exists helm; then
-    CURRENT=$(helm version --short --client | sed 's/v//g' | cut -d+ -f1)
-    if [[ "$CURRENT" == "$LATEST" ]]; then
-      success "✅ Helm is up to date ($CURRENT)"
-      return
-    fi
-    info "🔄 Updating Helm: $CURRENT → $LATEST"
-  else
-    info "⬇️ Installing helm $LATEST"
-  fi
-
-  if confirm_action "⚠️  Proceed to install/update Helm $LATEST?"; then
-    URL="https://get.helm.sh/helm-v${LATEST}-${OS_TYPE}-${ARCH}.tar.gz"
-    BINARY_NAME="helm"
-    INSTALL_PATH="${HOME}/bin/helm"
-    STRIP_COMPONENTS=1
-    download_and_install_tar_binary "$URL" "$BINARY_NAME" "$INSTALL_PATH" "$STRIP_COMPONENTS"
-  else
-    warn "⏭️  Skipped Helm install/update"
-  fi
-}
-

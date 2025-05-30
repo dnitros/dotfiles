@@ -6,7 +6,7 @@ path_add "${PERSONAL_BIN_DIR}/neovim/bin" before
 
 load_file_if_exists "${HOME}/.bash_aliases"
 load_file_if_exists "${HOME}/.bash_setup"
-eval "$(zoxide init bash --cmd cd)"
+command_exists zoxide && eval "$(zoxide init bash --cmd cd)"
 
 path_remove "/usr/local/games"
 path_remove "/usr/games"
