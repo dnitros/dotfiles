@@ -100,7 +100,7 @@ install_or_update_k3s() {
   local latest="$BINARY_LATEST_VERSION"
 
   if _confirm_action "⚠️  Proceed to install/update k3s $latest?"; then
-    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="$latest" K3S_KUBECONFIG_MODE=644 sh - || {
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="$latest" K3S_KUBECONFIG_MODE=644 sh -s - --disable traefik --disable servicelb || {
       error "❌ Failed to install/update k3s"
       return
     }

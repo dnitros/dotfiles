@@ -7,6 +7,7 @@ path_add "${PERSONAL_BIN_DIR}/neovim/bin" before
 load_file_if_exists "${HOME}/.bash_aliases"
 load_file_if_exists "${HOME}/.bash_setup"
 command_exists zoxide && eval "$(zoxide init bash --cmd cd)"
+command_exists k3s && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 path_remove "/usr/local/games"
 path_remove "/usr/games"

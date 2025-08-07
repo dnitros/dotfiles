@@ -3,6 +3,7 @@ ca-certificates
 cmake
 containerd.io
 curl
+dnsutils
 docker-buildx-plugin
 docker-ce
 docker-ce-cli
