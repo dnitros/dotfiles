@@ -13,6 +13,8 @@ load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 load_file_if_exists "${HOME}/.p10k.zsh"
 # load_file_if_exists "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"
 
+eval $("${HOMEBREW_PREFIX}/bin/brew" shellenv)
+
 # Path to your oh-my-zsh installation.
 export ZSH="${ZDOTDIR:-${HOME}}/.oh-my-zsh"
 
@@ -38,7 +40,7 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-"${ZSH:-"${HOME}/.oh-my-zsh"}/custom"}"
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # oh-my-zsh plugins
-plugins=(evalcache fast-syntax-highlighting brew iterm2 zsh-autosuggestions)
+plugins=(evalcache fast-syntax-highlighting iterm2 zsh-autosuggestions)
 
 # according to https://github.com/zsh-users/zsh-completions/issues/603#issue-373185486, this can't be added as a plugin to omz for the fpath to work correctly
 is_directory "${ZSH_CUSTOM}/plugins/zsh-completions/src" && fpath+="${ZSH_CUSTOM}/plugins/zsh-completions/src"

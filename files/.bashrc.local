@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
 
-path_add "${HOME}/bin" before
-path_add "${HOME}/.local/bin" before
-path_add "${PERSONAL_BIN_DIR}/neovim/bin" before
+OS="$(uname)"
+if [[ "${OS}" == "Linux" ]]
+then
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+elif [[ "${OS}" == "Darwin" ]]
+then
+  export HOMEBREW_PREFIX="/opt/homebrew"
+fi
+
+eval $("${HOMEBREW_PREFIX}/bin/brew" shellenv)
+
+path_add "${HOMEBREW_PREFIX}/bin" before
+path_add "${HOMEBREW_PREFIX}/sbin" before
+path_add "${HOME}/bin"
+path_add "${HOME}/.local/bin"
+path_add "${PERSONAL_BIN_DIR}/neovim/bin"
 
 load_file_if_exists "${HOME}/.bash_aliases"
 load_file_if_exists "${HOME}/.bash_setup"

@@ -15,6 +15,7 @@ kitty-terminfo
 luarocks
 ninja-build
 tailscale
+time
 tmux
 unzip
 vim

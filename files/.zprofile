@@ -18,6 +18,14 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 
 export DOTFILES_DIR="${HOME}/.dotfiles"
 export PERSONAL_BIN_DIR="${HOME}/bin"
-export HOMEBREW_PREFIX="/opt/homebrew"
 
-export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH+:$PATH}"
+OS="$(uname)"
+if [[ "${OS}" == "Linux" ]]
+then
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+elif [[ "${OS}" == "Darwin" ]]
+then
+  export HOMEBREW_PREFIX="/opt/homebrew"
+fi
+
+export PATH="${HOMEBREW_PREFIX}/bin:/usr/local/bin:/usr/bin:/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/sbin:/usr/sbin:/sbin:${PATH+:$PATH}"
