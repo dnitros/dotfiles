@@ -11,13 +11,12 @@ type load_file_if_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 
 load_file_if_exists "${HOME}/.p10k.zsh"
-load_file_if_exists "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"
 
 # Path to your oh-my-zsh installation.
-export ZSH="${HOME}/.oh-my-zsh"
+export ZSH="${ZDOTDIR:-${HOME}}/.oh-my-zsh"
 
 # Set theme to load - possible values "random", "robbyrussell", "powerlevel10k/powerlevel10k", "agnoster"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # possible values: "disabled", "auto", "reminder"
 zstyle ':omz:update' mode auto
@@ -31,11 +30,16 @@ zstyle :omz:plugins:iterm2 shell-integration yes
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
+# omz custom plugin location
+ZSH_CUSTOM="${ZSH_CUSTOM:-"${ZSH:-"${HOME}/.oh-my-zsh"}/custom"}"
+
+# https://github.com/zsh-users/zsh-autosuggestions?tab=readme-ov-file#suggestion-strategy
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 # oh-my-zsh plugins
-plugins=(evalcache fast-syntax-highlighting gradle iterm2 zsh-autosuggestions)
+plugins=(evalcache fast-syntax-highlighting brew iterm2 zsh-autosuggestions)
 
 # according to https://github.com/zsh-users/zsh-completions/issues/603#issue-373185486, this can't be added as a plugin to omz for the fpath to work correctly
-ZSH_CUSTOM="${ZSH_CUSTOM:-"${ZSH:-"${HOME}/.oh-my-zsh"}/custom"}"
 is_directory "${ZSH_CUSTOM}/plugins/zsh-completions/src" && fpath+="${ZSH_CUSTOM}/plugins/zsh-completions/src"
 
 load_file_if_exists "${ZSH}/oh-my-zsh.sh"
@@ -45,35 +49,9 @@ is_non_zero_string "${SSH_CONNECTION}" && export EDITOR="vi"
 
 command_exists vi && ! is_non_zero_string "${EDITOR}" && export EDITOR="vi"
 
-# Compilation flags
-[[ "${ARCH}" =~ "x86" ]] && export ARCHFLAGS="-arch x86_64"
-
 load_file_if_exists "${HOME}/.aliases"
 
 path_add "${PERSONAL_BIN_DIR}"
-
-if is_macos && command_exists brew; then
-  export MANPATH="${HOMEBREW_PREFIX}/share/man:$(manpath)"
-  export INFOPATH="${HOMEBREW_PREFIX}/share/info${INFOPATH+:$INFOPATH}"
-
-  export HOMEBREW_NO_ANALYTICS=1
-  export HOMEBREW_CLEANUP_MAX_AGE_DAYS=3
-  export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3
-  export HOMEBREW_BAT=1
-  export HOMEBREW_VERBOSE_USING_DOTS=1
-  export HOMEBREW_CASK_OPTS="--no-quarantine"
-
-  command_exists mise && _evalcache mise activate zsh
-
-  command_exists zoxide && _evalcache zoxide init zsh --cmd cd
-
-# command_exists direnv && _evalcache direnv hook zsh
-
-# load_file_if_exists "${HOME}/.config/devbox/lib/use_devbox.sh"
-
-  CURL_DIR="${HOMEBREW_PREFIX}/opt/curl"
-  path_add "${CURL_DIR}/bin" before
-fi
 
 if is_macos; then
   # setopt glob_dots                # no special treatment for file names with a leading dot
@@ -105,6 +83,32 @@ if is_macos; then
 
   # console colors
   autoload -U colors && colors
+
+  # completion system
+  autoload -U compinit && compinit
+
+  if command_exists brew; then
+    export MANPATH="${HOMEBREW_PREFIX}/share/man:$(manpath)"
+    export INFOPATH="${HOMEBREW_PREFIX}/share/info${INFOPATH+:$INFOPATH}"
+
+    export HOMEBREW_NO_ANALYTICS=1
+    export HOMEBREW_CLEANUP_MAX_AGE_DAYS=3
+    export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3
+    export HOMEBREW_BAT=1
+    export HOMEBREW_VERBOSE_USING_DOTS=1
+    export HOMEBREW_CASK_OPTS="--no-quarantine"
+
+    command_exists mise && _evalcache mise activate zsh
+
+    command_exists zoxide && _evalcache zoxide init zsh --cmd cd
+
+    # command_exists direnv && _evalcache direnv hook zsh
+
+    # load_file_if_exists "${HOME}/.config/devbox/lib/use_devbox.sh"
+
+    CURL_DIR="${HOMEBREW_PREFIX}/opt/curl"
+    path_add "${CURL_DIR}/bin" before
+  fi
 fi
 
 # Use bat to colorize man pages

@@ -18,5 +18,6 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 
 export DOTFILES_DIR="${HOME}/.dotfiles"
 export PERSONAL_BIN_DIR="${HOME}/bin"
+export HOMEBREW_PREFIX="/opt/homebrew"
 
 export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH+:$PATH}"

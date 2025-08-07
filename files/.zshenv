@@ -1,17 +1,5 @@
 #!/usr/bin/env zsh
 
-# https://blog.patshead.com/2011/04/improve-your-oh-my-zsh-startup-time-maybe.html
-skip_global_compinit=1
-
-export SYSTEM=$(uname -s)
-
-export ARCH=`uname -m`
-if [[ "${ARCH}" =~ "arm" ]]; then
-  export HOMEBREW_PREFIX="/opt/homebrew"
-else
-  export HOMEBREW_PREFIX="/usr/local"
-fi
-
 # https://github.com/sorin-ionescu/prezto/blob/master/runcoms/zshenv
 # Ensure that a non-login, non-interactive shell has a defined environment.
 export ZDOTDIR="${HOME}"

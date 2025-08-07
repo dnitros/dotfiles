@@ -4,6 +4,8 @@
   path = ~/.gitconfig.inc
 [includeIf "gitdir/i:~/.dotfiles/"]
   path = ~/.gitconfig-personal.inc
+[includeIf "gitdir/i:~/dev/dnitros/"]
+  path = ~/.gitconfig-personal.inc
 [alias]
   cc = "!echo \"Size before: $(du -sh .git | cut -f1)\"; git remote prune origin; git repack; git prune-packed; git reflog expire --all --expire=1.week.ago; git maintenance run --task=gc; echo \"Size after: $(du -sh .git | cut -f1)\";"
   committers = shortlog -s --
@@ -16,6 +18,8 @@
 [branch]
   autosetupmerge = true
   autosetuprebase = always
+[bulkworkspaces]
+  dnitros = /Users/digvijaysingh/dev/dnitros
 [checkout]
   defaultRemote = origin
 [color]

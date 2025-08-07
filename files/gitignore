@@ -12,6 +12,7 @@
 .bash_completion
 .bash_history
 .bash_profile
+.bash_setup
 .bashrc
 .bashrc.local
 .cache/
