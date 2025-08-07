@@ -11,6 +11,7 @@ type load_file_if_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 
 load_file_if_exists "${HOME}/.p10k.zsh"
+# load_file_if_exists "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"
 
 # Path to your oh-my-zsh installation.
 export ZSH="${ZDOTDIR:-${HOME}}/.oh-my-zsh"
@@ -83,6 +84,10 @@ if is_macos; then
 
   # console colors
   autoload -U colors && colors
+
+  # docker completion
+  zstyle ':completion:*:*:docker:*' option-stacking yes
+  zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
   # completion system
   autoload -U compinit && compinit

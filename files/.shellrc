@@ -143,6 +143,12 @@ path_clean() {
   export PATH
 }
 
+# function to gauge shell startup time
+function timeshell() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}
+
 if is_macos; then
   reinstall_xcode() {
     delete_directory_if_exists "/Applications/Xcode.app"
