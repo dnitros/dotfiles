@@ -27,7 +27,7 @@ then
 elif [[ "${OS}" == "Darwin" ]]
 then
   export HOMEBREW_PREFIX="/opt/homebrew"
-  export HOMEBREW_BUNDLE_FILE="${HOME}/Brewfile"
+  export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME}/brew/mac/Brewfile"
 fi
 
 export PATH="${HOMEBREW_PREFIX}/bin:/usr/local/bin:/usr/bin:/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/sbin:/usr/sbin:/sbin:${PATH+:$PATH}"
