@@ -1,0 +1,56 @@
+"$schema": https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+version: 3
+blocks:
+  - type: prompt
+    alignment: left
+    force: true
+    segments: []
+
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: status
+        style: plain
+        template: "<#e23140></><#161514,#e23140></><#e23140,#35312c></><,#35312c> {{ .String }}</><#35312c></> "
+      - type: path
+        style: plain
+        template: "<#9f31e2></><#161514,#9f31e2></><#9f31e2,#35312c></><,#35312c> {{ .Path }}</><#35312c></> "
+      - type: git
+        style: plain
+        template: "<#84cc16></><#161514,#84cc16>{{ .UpstreamIcon }}</><#84cc16,#35312c></><,#35312c> {{ .Ref }}</><#35312c></> "
+        properties:
+          fetch_status: true
+          fetch_upstream_icon: true
+          branch_max_length: 18
+      - type: root
+        style: plain
+        template: "<#b14cff></><#161514,#b14cff>⚡</><#b14cff,#35312c></><#35312c></>"
+        properties:
+          always_enabled: true
+
+  - type: rprompt
+    segments:
+      - type: executiontime
+        style: plain
+        template: "<#e26f31></><#161514,#e26f31>󱐋</><#e26f31,#35312c></><,#35312c> {{ .FormattedMs }}</><#35312c></> "
+        properties:
+          threshold: 500
+          style: round
+
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: text
+        style: plain
+        foreground: "#35312c"
+        template: "╰"
+      - type: status
+        style: plain
+        template: "{{ if eq .Code 0 }}<#8047c1>❯</>{{ else }}<#e23140>❯</>{{ end }} "
+        properties:
+          always_enabled: true
+transient_prompt:
+  template: "<#8047c1>❯</> "
+  newline: true

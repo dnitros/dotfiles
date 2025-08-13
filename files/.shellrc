@@ -175,7 +175,7 @@ if is_macos; then
   }
 fi
 
-if (is_linux || (is_macos && [[ "${SHELL}" == */bash ]])); then
+if ((is_linux && [[ "${SHELL}" == */bash ]]) || (is_macos && [[ "${SHELL}" == */bash ]])); then
   # Prompt colors
   COLOR256=()
   COLOR256[0]="${RED}"

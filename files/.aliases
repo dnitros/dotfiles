@@ -14,7 +14,7 @@ command_exists btop && alias top='btop'
 alias code-gist='code ${DOTFILES_DIR} ${HOME}/.gitconfig-*'
 
 # brew aliases
-if is_macos && command_exists brew; then
+if command_exists brew; then
   alias bcg='brew outdated --greedy'
   alias bcug='brew upgrade --greedy'
   alias bupc='brew bundle check || brew bundle --all --cleanup; brew bundle cleanup -f --zap; brew cleanup --prune=all; brew autoremove; brew upgrade'

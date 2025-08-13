@@ -26,3 +26,9 @@ alias -- -='cd -'
 # fi
 command_exists bat && alias cat='bat'
 command_exists btop && alias top='btop'
+
+if command_exists brew; then
+  alias bcg='brew outdated --greedy'
+  alias bcug='brew upgrade --greedy'
+  alias bupc='brew bundle check || brew bundle --all --cleanup; brew bundle cleanup -f --zap; brew cleanup --prune=all; brew autoremove; brew upgrade'
+fi

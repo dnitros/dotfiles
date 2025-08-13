@@ -30,4 +30,7 @@ then
   export HOMEBREW_BUNDLE_FILE="${HOME}/Brewfile"
 fi
 
+export SHELL_SESSION_DIR=$XDG_STATE_HOME/zsh/sessions
+export SHELL_SESSION_FILE=$SHELL_SESSION_DIR/$TERM_SESSION_ID
+
 export PATH="${HOMEBREW_PREFIX}/bin:/usr/local/bin:/usr/bin:/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/sbin:/usr/sbin:/sbin:${PATH+:$PATH}"

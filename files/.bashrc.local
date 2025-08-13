@@ -4,12 +4,12 @@ OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]
 then
   export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+  export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME}/brew/linux/Brewfile"
 elif [[ "${OS}" == "Darwin" ]]
 then
   export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_BUNDLE_FILE="${HOME}/Brewfile"
 fi
-
-eval $("${HOMEBREW_PREFIX}/bin/brew" shellenv)
 
 path_add "${HOMEBREW_PREFIX}/bin" before
 path_add "${HOMEBREW_PREFIX}/sbin" before

@@ -1,0 +1,5 @@
+tap 'jandedobbeleer/oh-my-posh'
+
+brew 'bat'
+brew 'btop'
+brew 'jandedobbeleer/oh-my-posh/oh-my-posh'
