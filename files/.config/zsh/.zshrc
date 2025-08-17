@@ -8,29 +8,19 @@ zmodload zsh/zprof
 type load_file_if_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Load history configurations
+# Load configurations
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-load_file_if_exists "${ZDOTDIR}/config/history.zsh"
+config_files=(
+  "history.zsh"
+  "options.zsh"
+  "zinit.zsh"
+  "aliases.zsh"
+  "completions.zsh"
+)
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Load zsh shell features
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-load_file_if_exists "${ZDOTDIR}/config/options.zsh"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Load zinit
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-load_file_if_exists "${ZDOTDIR}/config/zinit.zsh"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Load alises
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-load_file_if_exists "${ZDOTDIR}/config/aliases.zsh"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Load completions
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-load_file_if_exists "${ZDOTDIR}/config/completions.zsh"
+for config in "${config_files[@]}"; do
+  load_file_if_exists "${ZDOTDIR}/config/${config}"
+done
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Evalcache configuration
@@ -40,6 +30,9 @@ command_exists zoxide && _evalcache zoxide init zsh --cmd cd
 command_exists fzf && _evalcache fzf --zsh
 command_exists brew && _evalcache brew shellenv
 # command_exists direnv && _evalcache direnv hook zsh
+
+# https://github.com/zsh-users/zsh-autosuggestions?tab=readme-ov-file#suggestion-strategy
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # Preferred editor for remote sessions
 is_non_zero_string "${SSH_CONNECTION}" && export EDITOR="vi"
@@ -52,9 +45,6 @@ path_add "${PERSONAL_BIN_DIR}"
 autoload -Uz colors && colors
 
 if command_exists brew; then
-  export MANPATH="${HOMEBREW_PREFIX}/share/man:${MANPATH}"
-  export INFOPATH="${HOMEBREW_PREFIX}/share/info${INFOPATH+:$INFOPATH}"
-
   export HOMEBREW_NO_ANALYTICS=1
   export HOMEBREW_CLEANUP_MAX_AGE_DAYS=3
   export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3
@@ -71,6 +61,8 @@ fi
 # Use bat to colorize man pages
 command_exists bat && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+command_exists _awsp && alias awsp="source _awsp"
+
 # remove empty components to avoid '::' ending up + resulting in './' being in $PATH, etc
 path=( "${path[@]:#}" )
 fpath=( "${fpath[@]:#}" )
@@ -80,3 +72,6 @@ manpath=( "${manpath[@]:#}" )
 
 # remove duplicates from some env vars
 typeset -gU cdpath CPPFLAGS cppflags FPATH fpath infopath LDFLAGS ldflags MANPATH manpath PATH path PKG_CONFIG_PATH
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+load_file_if_exists "${HOME}/.sdkman/bin/sdkman-init.sh"
