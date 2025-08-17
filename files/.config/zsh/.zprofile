@@ -27,7 +27,7 @@ then
 elif [[ "${OS}" == "Darwin" ]]
 then
   export HOMEBREW_PREFIX="/opt/homebrew"
-  export HOMEBREW_BUNDLE_FILE="${HOME}/Brewfile"
+  export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME}/brew/mac/Brewfile"
 fi
 
 export SHELL_SESSION_DIR=$XDG_STATE_HOME/zsh/sessions
