@@ -72,6 +72,9 @@ PS1+='\[${PROMPT_COLORS[5]}\]\w '
 PS1+='$(branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); is_non_zero_string "$branch" && echo "\[${PROMPT_COLORS[2]}\](\[${PROMPT_COLORS[3]}\]git:$branch\[${PROMPT_COLORS[2]}\]) ")'
 PS1+='\[${PROMPT_COLORS[0]}\]\$\[${COLOR256[256]}\] '
 
+load_file_if_exists "${HOME}/.bash_functions"
+load_file_if_exists "${HOME}/.bash_aliases"
+
 # Themes: 0-29
 set_prompt_colors 24
 
@@ -88,4 +91,26 @@ if ! shopt -oq posix; then
     done
 fi
 
-load_file_if_exists "${HOME}/.bashrc.local"
+OS="$(uname)"
+if [[ "${OS}" == "Linux" ]]
+then
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+  export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME}/brew/linux/Brewfile"
+elif [[ "${OS}" == "Darwin" ]]
+then
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_BUNDLE_FILE="${HOME}/brew/mac/Brewfile"
+fi
+
+path_add "${HOMEBREW_PREFIX}/bin" before
+path_add "${HOMEBREW_PREFIX}/sbin" before
+path_add "${HOME}/bin"
+path_add "${HOME}/.local/bin"
+
+command_exists zoxide && eval "$(zoxide init bash --cmd cd)"
+command_exists k3s && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+path_remove "/usr/local/games"
+path_remove "/usr/games"
+
+path_clean

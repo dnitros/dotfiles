@@ -16,6 +16,7 @@ config_files=(
   "zinit.zsh"
   "aliases.zsh"
   "completions.zsh"
+  "functions.zsh"
 )
 
 for config in "${config_files[@]}"; do
