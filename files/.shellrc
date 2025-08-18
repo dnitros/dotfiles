@@ -182,3 +182,131 @@ elif [[ "${SHELL}" == */zsh ]]; then
     done
   }
 fi
+
+if is_linux; then
+  SKIP_CONFIRMATION=${SKIP_CONFIRMATION:-false}
+  INSTALL_K3S=${INSTALL_K3S:-true}
+  INSTALL_FZF=${INSTALL_FZF:-true}
+
+  manage_apt_packages() {
+    info "📦 Checking for APT updates and installing from .packages"
+
+    info "🔍 Updating package list..."
+    sudo apt-get update -qq
+
+    info "📋 Checking for upgradable packages..."
+    UPGRADABLE=$(apt list --upgradable 2>/dev/null | grep -v "Listing" || true)
+
+    if is_non_zero_string "$UPGRADABLE"; then
+      info "🔄 Upgradable packages detected:"
+      echo "$UPGRADABLE" | awk '{print "  ⬆️ " $1}'
+      if _confirm_action "⚠️  Do you want to upgrade all packages?"; then
+        sudo apt-get upgrade -y
+      else
+        warn "⏭️  Skipped upgrade"
+      fi
+    else
+      success "✅ All packages are up to date"
+    fi
+
+    if is_file "${HOME}/.packages"; then
+      info "📦 Ensuring required packages from .packages are installed..."
+      xargs -a "${HOME}/.packages" sudo apt-get install -y -q
+    else
+      warn "⚠️  No .packages file found at ${HOME}/.packages"
+    fi
+  }
+
+  install_or_update_k3s() {
+    if ! _verify_binary_update "k3s" INSTALL_K3S "k3s-io/k3s" "k3s --version | head -n1 | awk '{print \$3}'"; then
+      return
+    fi
+
+    local latest="$BINARY_LATEST_VERSION"
+
+    if _confirm_action "⚠️  Proceed to install/update k3s $latest?"; then
+      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="$latest" K3S_KUBECONFIG_MODE=644 sh -s - --disable traefik --disable servicelb || {
+        error "❌ Failed to install/update k3s"
+        return
+      }
+      success "✅ k3s installed/updated to version $latest"
+    else
+      warn "⏭️  Skipped k3s install/update"
+    fi
+  }
+
+  install_or_update_fzf() {
+    if ! _verify_binary_update "fzf" INSTALL_FZF "junegunn/fzf" "fzf --version | awk '{print \"v\"\$1}'"; then
+      return
+    fi
+
+    local latest="$BINARY_LATEST_VERSION"
+
+    if _confirm_action "⚠️  Proceed to install/update fzf $latest?"; then
+      cwd=$(pwd)
+      cd "${TMPDIR:-/tmp}" || exit 1
+      destination="${HOME}/bin/fzf"
+      arch=$(dpkg --print-architecture)
+      os_type=$(uname | tr '[:upper:]' '[:lower:]')
+      url="https://github.com/junegunn/fzf/releases/download/${latest}/fzf-${latest#v}-${os_type}_${arch}.tar.gz"
+      info "⬇️ Downloading fzf from $url..."
+      (curl -fsL "$url" | tar -xz) || { error "❌ Failed to download fzf"; return; }
+      mv fzf "$destination"
+      chmod +x "$destination"
+      cd "$cwd"
+      success "✅ fzf is now at version $latest"
+    else
+      warn "⏭️  Skipped fzf install/update"
+    fi
+  }
+
+  _confirm_action() {
+    local prompt="$1"
+    if [[ "$SKIP_CONFIRMATION" == true ]]; then
+      return 0
+    fi
+    read "confirm?$prompt [y/N]: "
+    [[ "$confirm" =~ ^[Yy]$ ]]
+  }
+
+  _verify_binary_update() {
+    local binary_name="$1"
+    local install_flag_name="$2"
+    local install_flag_value
+    eval "install_flag_value=\${$install_flag_name}"
+    local repo="$3"
+    local current_version_fetch_cmd="$4"
+
+    [[ "$install_flag_value" != true ]] && {
+      warn "⚠️  Skipping $binary_name installation (${install_flag_name}=${install_flag_value})"
+      return 1
+    }
+
+    local latest
+    latest=$(curl -fsSL "https://api.github.com/repos/${repo}/releases/latest" |
+            grep -oE '"tag_name"\s*:\s*"[^"]+"' |
+            sed -E 's/^"tag_name"\s*:\s*"([^"]+)"$/\1/' |
+            grep -E '[0-9]+\.[0-9]+\.[0-9]+')
+
+    [[ -z "$latest" ]] && {
+      error "❌ Failed to fetch latest $binary_name version"
+      return 1
+    }
+
+    if command_exists "$binary_name"; then
+      local current
+      current=$(eval "$current_version_fetch_cmd")
+      if [[ "$current" == "$latest" ]]; then
+        success "✅ $binary_name is up to date ($current)"
+        return 1
+      else
+        info "🔄 Updating $binary_name: $current → $latest"
+      fi
+    else
+      info "⬇️ Installing $binary_name $latest"
+    fi
+
+    export BINARY_LATEST_VERSION="$latest"
+    return 0
+  }
+fi
