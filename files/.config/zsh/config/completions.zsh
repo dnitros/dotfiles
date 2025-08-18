@@ -1,12 +1,20 @@
 #!/usr/bin/env zsh
 
-if [[ -z "$ZSH_COMPDUMP_REBUILT" ]]; then
-  autoload -Uz compinit
-  compinit -C -d "${XDG_CACHE_HOME}/zcompdump-${ZSH_VERSION}"
-  export ZSH_COMPDUMP_REBUILT=1
-fi
+[[ -o interactive ]] || return 0
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # zstyle ':completion:*:*:docker:*' option-stacking yes
 # zstyle ':completion:*:*:docker-*:*' option-stacking yes
+
+if [[ -z "$ZSH_COMPDUMP_LOADED" ]]; then
+  autoload -Uz compinit
+
+  if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+  else
+    compinit -C
+  fi
+
+  ZSH_COMPDUMP_LOADED=1
+fi

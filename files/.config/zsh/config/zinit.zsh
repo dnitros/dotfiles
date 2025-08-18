@@ -30,8 +30,8 @@ function __bind_history_keys() {
 # +-------+
 # | Theme |
 # +-------+
-zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zinit light sindresorhus/pure
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+load_file_if_exists "${ZDOTDIR}/.p10k.zsh"
 
 # +-----------+
 # | Evalcache |
@@ -49,8 +49,8 @@ zinit wait lucid for \
 # +--------------------------+
 # | Fast Syntax Highlighting |
 # +--------------------------+
-zinit ice wait lucid atinit"ZINIT[COMPINIT_OPTS]='-C -d ${XDG_CACHE_HOME}/zcompdump-${ZSH_VERSION}'; zicompinit; zicdreplay"
-zinit light zdharma/fast-syntax-highlighting
+zinit ice wait lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
+zinit light zdharma-continuum/fast-syntax-highlighting
 
 # +-----------------+
 # | ZSH Completions |
@@ -88,11 +88,3 @@ zinit ice wait lucid \
          HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=white,bold"' \
   atload'__bind_history_keys'
 zinit light zsh-users/zsh-history-substring-search
-
-# +-----------------------------+
-# | Disabled p10k configuration |
-# +-----------------------------+
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ${ZDOTDIR}/.zshrc.
-# load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
-# zinit ice depth=1; zinit light romkatv/powerlevel10k
-# load_file_if_exists "${ZDOTDIR}/.p10k.zsh"
