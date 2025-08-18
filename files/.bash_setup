@@ -4,24 +4,11 @@
 type command_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 
 SKIP_CONFIRMATION=${SKIP_CONFIRMATION:-false}
-INSTALL_JQ=${INSTALL_JQ:-true}
-INSTALL_GIT_DELTA=${INSTALL_GIT_DELTA:-true}
-INSTALL_ZOXIDE=${INSTALL_ZOXIDE:-true}
 INSTALL_K3S=${INSTALL_K3S:-true}
-INSTALL_HELM=${INSTALL_HELM:-true}
-
-ARCH=$(dpkg --print-architecture)
-OS_TYPE=$(uname | tr '[:upper:]' '[:lower:]')
-CPU_ARCH=$(uname -m)
-INSTALL_PATH=${PERSONAL_BIN_DIR:-"${HOME}/bin"}
 
 dep_update() {
   manage_apt_packages
-  install_or_update_jq
-  install_or_update_delta
-  install_or_update_zoxide
   install_or_update_k3s
-  install_or_update_helm
 }
 
 manage_apt_packages() {
@@ -53,45 +40,6 @@ manage_apt_packages() {
   fi
 }
 
-install_or_update_jq() {
-  if ! _verify_binary_update "jq" INSTALL_JQ "jqlang/jq" "jq --version"; then
-    return
-  fi
-
-  local latest="$BINARY_LATEST_VERSION"
-
-  if _confirm_action "⚠️  Proceed to install/update jq $latest?"; then
-    destination="${HOME}/bin/jq"
-    url="https://github.com/jqlang/jq/releases/download/${latest}/jq-${OS_TYPE}-${ARCH}"
-    info "⬇️ Downloading jq from $url..."
-    curl -fsSL "$url" -o "$destination" || { error "❌ Failed to download jq binary"; return; }
-    chmod +x "$destination"
-    success "✅ jq is now at version $latest"
-  else
-    warn "⏭️  Skipped jq install/update"
-  fi
-}
-
-install_or_update_delta() {
-  _install_or_update_binary_from_github \
-    "delta" \
-    INSTALL_GIT_DELTA \
-    "dandavison/delta" \
-    "delta --version | awk '{print \$2}'" \
-    "https://github.com/dandavison/delta/releases/download/\${latest}/delta-\${latest}-${CPU_ARCH}-unknown-${OS_TYPE}-gnu.tar.gz" \
-    1
-}
-
-install_or_update_zoxide() {
-  _install_or_update_binary_from_github \
-    "zoxide" \
-    INSTALL_ZOXIDE \
-    "ajeetdsouza/zoxide" \
-    "zoxide --version | awk '{print \"v\"\$2}'" \
-    "https://github.com/ajeetdsouza/zoxide/releases/download/\${latest}/zoxide-\$(echo \${latest} | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')-${CPU_ARCH}-unknown-${OS_TYPE}-musl.tar.gz" \
-    0
-}
-
 install_or_update_k3s() {
   if ! _verify_binary_update "k3s" INSTALL_K3S "k3s-io/k3s" "k3s --version | head -n1 | awk '{print \$3}'"; then
     return
@@ -108,16 +56,6 @@ install_or_update_k3s() {
   else
     warn "⏭️  Skipped k3s install/update"
   fi
-}
-
-install_or_update_helm() {
-  _install_or_update_binary_from_github \
-    "helm" \
-    INSTALL_HELM \
-    "helm/helm" \
-    "helm version --short --client | cut -d+ -f1" \
-    "https://get.helm.sh/helm-\${latest}-${OS_TYPE}-${ARCH}.tar.gz" \
-    1
 }
 
 _confirm_action() {
@@ -167,57 +105,4 @@ _verify_binary_update() {
 
   export BINARY_LATEST_VERSION="$latest"
   return 0
-}
-
-_install_or_update_binary_from_github() {
-  local binary_name="$1"
-  local install_flag_name="$2"
-  local install_flag_value="${!2}"
-  local repo="$3"
-  local current_version_fetch_cmd="$4"
-  local url_template="$5"
-  local strip_component="$6"
-
-  if ! _verify_binary_update "$binary_name" "$install_flag_name" "$repo" "$current_version_fetch_cmd"; then
-    return
-  fi
-
-  local latest="$BINARY_LATEST_VERSION"
-
-  if _confirm_action "⚠️  Proceed to install/update $binary_name $latest?"; then
-    local url
-    url=$(eval "echo \"$url_template\"")
-    _download_and_install_tar_binary "$url" "$binary_name" "$strip_component"
-  else
-    warn "⏭️  Skipped $binary_name install/update"
-  fi
-}
-
-_download_and_install_tar_binary() {
-  local url="$1"
-  local binary_name="$2"
-  local strip_components="$3"
-  local install_binary_path="${INSTALL_PATH}/${binary_name}"
-
-  local tmpdir
-  tmpdir=$(mktemp -d)
-  trap 'rm -rf "$tmpdir"' RETURN
-  local tarfile="$tmpdir/archive.tar.gz"
-
-  info "⬇️ Downloading $binary_name from $url..."
-  curl -fsSL "$url" -o "$tarfile" || { error "❌ Failed to download $binary_name"; return 1; }
-
-  info "📦 Extracting $binary_name..."
-  tar -xf "$tarfile" --strip-components="$strip_components" -C "$tmpdir" || { error "❌ Failed to extract $binary_name tarfile"; return 1; }
-
-  local extracted_binary="$tmpdir/$binary_name"
-  if [[ ! -f "$extracted_binary" ]]; then
-    error "❌ $binary_name not found in extracted contents"
-    return 1
-  fi
-
-  info "🚚 Installing $binary_name to $install_binary_path"
-  cp "$extracted_binary" "$install_binary_path"
-  chmod +x "$install_binary_path"
-  success "✅ $binary_name installed at $install_binary_path"
 }

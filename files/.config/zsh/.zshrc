@@ -63,6 +63,11 @@ command_exists bat && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 command_exists _awsp && alias awsp="source _awsp"
 
+command_exists k3s && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+path_remove "/usr/local/games"
+path_remove "/usr/games"
+
 # remove empty components to avoid '::' ending up + resulting in './' being in $PATH, etc
 path=( "${path[@]:#}" )
 fpath=( "${fpath[@]:#}" )

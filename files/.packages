@@ -1,6 +1,4 @@
 build-essential
-ca-certificates
-cmake
 containerd.io
 curl
 dnsutils
@@ -8,15 +6,7 @@ docker-buildx-plugin
 docker-ce
 docker-ce-cli
 docker-compose-plugin
-fzf
-gettext
-git
 kitty-terminfo
-luarocks
 ninja-build
 tailscale
 time
-tmux
-unzip
-vim
-zsh

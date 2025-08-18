@@ -19,11 +19,11 @@ alias -- -='cd -'
 
 # neovim broken on `v0.11.1`
 # many plugin needs fix - will revisit
-# if command_exists nvim; then
-#   alias vi='nvim'
-# elif command_exists vim; then
-#   alias vi='vim'
-# fi
+if command_exists nvim; then
+  alias vi='nvim'
+elif command_exists vim; then
+  alias vi='vim'
+fi
 command_exists bat && alias cat='bat'
 command_exists btop && alias top='btop'
 
