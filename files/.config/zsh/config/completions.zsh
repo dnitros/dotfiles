@@ -3,6 +3,10 @@
 [[ -o interactive ]] || return 0
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
 # zstyle ':completion:*:*:docker:*' option-stacking yes
 # zstyle ':completion:*:*:docker-*:*' option-stacking yes

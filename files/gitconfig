@@ -1,5 +1,7 @@
 # file location: ~/.gitconfig
 
+[include]
+	path = ~/.config/delta/themes/catppuccin.gitconfig
 [includeIf "gitdir/i:~/"]
   path = ~/.gitconfig.inc
 [includeIf "gitdir/i:~/.dotfiles/"]
@@ -48,6 +50,7 @@
   pager = delta
   whitespace = fix
 [delta]
+  features = catppuccin-mocha
   side-by-side = true
   true-color = always
 [diff]

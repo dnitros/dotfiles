@@ -2,9 +2,9 @@
 /files/.config/gcloud/
 /files/.config/github-copilot/
 /files/.config/helm/
-/files/.config/iterm2/
+/files/.config/iterm2/*
+!/files/.config/iterm2/themes/
 /files/.config/jgit/
-/files/.config/k9s/
 /files/.config/raycast/
 /files/.config/tmux/plugins/
 /files/.config/zsh/.zcompdump

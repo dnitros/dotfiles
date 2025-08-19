@@ -42,8 +42,8 @@ zinit light mroth/evalcache
 # | OMZ |
 # +-----+
 zinit wait lucid for \
-  OMZL::completion.zsh \
   OMZL::directories.zsh \
+  OMZL::key-bindings.zsh \
   OMZL::spectrum.zsh
 
 # +--------------------------+
@@ -51,6 +51,8 @@ zinit wait lucid for \
 # +--------------------------+
 zinit ice wait lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
 zinit light zdharma-continuum/fast-syntax-highlighting
+# enable catppuccin theme in using fast-theme
+fast-theme XDG:catppuccin-mocha
 
 # +-----------------+
 # | ZSH Completions |
@@ -76,9 +78,15 @@ zinit ice wait lucid \
   atload'
     local P=${${(M)OSTYPE:#*darwin*}:+g}
     alias ls="${P}ls --color"
-    zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”' \
+    zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}' \
   atpull'%atclone' pick"c.zsh" nocompile'!' reset-prompt
 zinit light trapd00r/LS_COLORS
+
+# +---------+
+# | fzf tab |
+# +---------+
+zinit ice wait lucid
+zinit light Aloxaf/fzf-tab
 
 # +--------------------+
 # | ZSH History search |

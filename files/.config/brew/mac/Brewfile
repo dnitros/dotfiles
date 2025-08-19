@@ -66,6 +66,8 @@ mas 'Velja', id: 1607635845
 mas 'Yubico Authenticator', id: 1497506650
 
 # ----------------------------------------------------------------------------------------------------------
+vscode 'catppuccin.catppuccin-vsc'
+vscode 'catppuccin.catppuccin-vsc-icons'
 vscode 'eamodio.gitlens'
 vscode 'esbenp.prettier-vscode'
 vscode 'github.copilot'
