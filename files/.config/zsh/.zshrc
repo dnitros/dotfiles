@@ -21,6 +21,7 @@ load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 config_files=(
   "history.zsh"
   "options.zsh"
+  "key-bindings.zsh"
   "zinit.zsh"
   "aliases.zsh"
   "completions.zsh"

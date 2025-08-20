@@ -14,16 +14,6 @@ fi
 load_file_if_exists "${ZINIT_HOME}/zinit.zsh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Bind up and down arrow keys for history search until plugin is ready
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-bindkey -r '^[[A'
-bindkey -r '^[[B'
-function __bind_history_keys() {
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Plugins
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -43,7 +33,6 @@ zinit light mroth/evalcache
 # +-----+
 zinit wait lucid for \
   OMZL::directories.zsh \
-  OMZL::key-bindings.zsh \
   OMZL::spectrum.zsh
 
 # +--------------------------+
@@ -52,7 +41,7 @@ zinit wait lucid for \
 zinit ice wait lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
 zinit light zdharma-continuum/fast-syntax-highlighting
 # enable catppuccin theme in using fast-theme
-fast-theme XDG:catppuccin-mocha
+# fast-theme XDG:catppuccin-mocha
 
 # +-----------------+
 # | ZSH Completions |

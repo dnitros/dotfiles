@@ -18,6 +18,7 @@ config_files=(
   "completions.zsh"
   "functions.zsh"
   "history.zsh"
+  "key-bindings.zsh"
   "options.zsh"
   "zinit.zsh"
 )
