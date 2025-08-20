@@ -94,7 +94,7 @@ manpath=( "${manpath[@]:#}" )
 command_exists mise && _evalcache mise activate zsh
 command_exists zoxide && _evalcache zoxide init zsh --cmd cd
 command_exists fzf && _evalcache fzf --zsh
-command_exists brew && _evalcache brew shellenv
+is_linux && command_exists brew && _evalcache brew shellenv
 # command_exists direnv && _evalcache direnv hook zsh
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
