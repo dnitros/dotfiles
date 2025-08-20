@@ -18,6 +18,9 @@ load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Load environment variables
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Evalcache cache storage directory, default $HOME/.zsh-evalcache
+export ZSH_EVALCACHE_DIR="${XDG_STATE_HOME}/zsh/.zsh-evalcache"
+
 # https://github.com/zsh-users/zsh-autosuggestions#suggestion-strategy
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
