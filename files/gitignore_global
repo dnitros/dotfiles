@@ -1,8 +1,0 @@
-*~
-.DS_Store
-*.zwc
-*.zwc.old
-
-.zcompdump
-.idea/
-.sdkmanrc

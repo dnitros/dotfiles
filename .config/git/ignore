@@ -1,0 +1,8 @@
+# file location: ${XDG_CONFIG_HOME}/git/ignore
+*~
+.DS_Store
+*.zwc
+*.zwc.old
+
+.idea/
+.sdkmanrc

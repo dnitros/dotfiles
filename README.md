@@ -1,12 +1,53 @@
 # Dotfiles
-Custom configuration files for setting up my environment.
+
+This repository contains my personal configuration files (dotfiles).  
+They are managed using [GNU Stow](https://www.gnu.org/software/stow/), which creates symlinks from this repo into your `$HOME` directory.  
+
+---
+
+## Prerequisites
+
+Ensure that Git and GNU Stow are installed on your system.
+
+### Homebrew
+```bash
+brew install git stow
+```
+
+## Debian
+```bash
+sudo apt install git stow -y
+```
+
+---
 
 ## Installation
-To set up the dotfiles, run the `install` script located in the `scripts` directory. This script will:
 
-- Copy all files starting with `git` to your home directory.
-- Create symbolic links for the remaining configuration files in the home directory.
+1. Clone this repository into your `$HOME` directory:
+   ```bash
+   cd
+   mkdir -p "${HOME}/.config"
+   git clone https://github.com/dnitros/dotfiles.git
+   cd dotfiles
+   ```
+
+2. Use **GNU Stow** to create symlinks:
+   ```bash
+   stow -t "${HOME}" .
+   ```
+
+This will symlink the configuration files into your home directory.
+
+---
+
+## Removing symlinks
+To remove symlinks created by Stow:
 
 ```bash
-./scripts/install
+stow -t "${HOME}" -D .
 ```
+
+---
+
+## Fallback Installation
+If for some reason the Stow-based installation does not work, you can follow the instructions in the [scripts/INSTALL.md](scripts/INSTALL.md) file.
