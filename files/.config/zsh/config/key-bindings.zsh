@@ -18,17 +18,24 @@ fi
 # Emacs keybind
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bindkey -e
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Delete ↑↓ arrow key binding
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bindkey -r '^[[A'
 bindkey -r '^[[B'
+bindkey -r '^[[C'
+bindkey -r '^[[D'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# [Home] - Go to beginning of line
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+is_non_zero_string "${terminfo[khome]}" && bindkey -M emacs "${terminfo[khome]}" beginning-of-line
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# [End] - Go to end of line
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+is_non_zero_string "${terminfo[kend]}" && bindkey -M emacs "${terminfo[kend]}" end-of-line
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Function to bind ↑↓ arrow keys for zsh-history-substring-search (zinit plugin)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 function __bind_history_keys() {
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
+  is_non_zero_string "${terminfo[kcuu1]}" && bindkey -M emacs "${terminfo[kcuu1]}" history-substring-search-up
+  is_non_zero_string "${terminfo[kcud1]}" && bindkey -M emacs "${terminfo[kcud1]}" history-substring-search-down
 }
