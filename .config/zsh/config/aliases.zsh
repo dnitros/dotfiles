@@ -6,6 +6,12 @@ if command_exists nvim; then
 elif command_exists vim; then
   alias vi='vim'
 fi
+if command_exists eza; then
+  alias ls='eza --icons'
+  alias tree='eza --icons -T -L 3'
+else
+  alias ls='ls --color'
+fi
 command_exists bat && alias cat='bat'
 command_exists btop && alias top='btop'
 command_exists _awsp && alias awsp="source _awsp"

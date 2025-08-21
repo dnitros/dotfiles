@@ -35,6 +35,19 @@ zinit wait lucid for \
   OMZL::directories.zsh \
   OMZL::spectrum.zsh
 
+# setup gcloud completions and path
+if command_exists gcloud; then
+  CLOUDSDK_HOME="${HOMEBREW_PREFIX}/Caskroom/gcloud-cli/latest/google-cloud-sdk"
+  zinit ice wait lucid;
+  zinit snippet OMZP::gcloud;
+fi
+
+# +---------+
+# | fzf tab |
+# +---------+
+zinit ice wait lucid
+zinit light Aloxaf/fzf-tab
+
 # +--------------------------+
 # | Fast Syntax Highlighting |
 # +--------------------------+
@@ -54,28 +67,6 @@ zinit light zsh-users/zsh-completions
 # +---------------------+
 zinit ice wait lucid atload"!_zsh_autosuggest_start"
 zinit light zsh-users/zsh-autosuggestions
-
-# +-----------+
-# | LS Colors |
-# +-----------+
-zinit ice wait lucid \
-  atclone'
-    local P=${${(M)OSTYPE:#*darwin*}:+g}
-    ${P}sed -i \
-    "/DIR/c\DIR 38;5;63;1" LS_COLORS; \
-    ${P}dircolors -b LS_COLORS > c.zsh' \
-  atload'
-    local P=${${(M)OSTYPE:#*darwin*}:+g}
-    alias ls="${P}ls --color"
-    zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}' \
-  atpull'%atclone' pick"c.zsh" nocompile'!' reset-prompt
-zinit light trapd00r/LS_COLORS
-
-# +---------+
-# | fzf tab |
-# +---------+
-zinit ice wait lucid
-zinit light Aloxaf/fzf-tab
 
 # +--------------------+
 # | ZSH History search |

@@ -18,6 +18,9 @@ load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Load environment variables
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Generate catppuccin-mocha theme for LS_COLORS
+command_exists vivid && export LS_COLORS="$(vivid generate catppuccin-mocha)"
+
 # Evalcache cache storage directory, default $HOME/.zsh-evalcache
 export ZSH_EVALCACHE_DIR="${XDG_STATE_HOME}/zsh/.zsh-evalcache"
 
@@ -25,7 +28,7 @@ export ZSH_EVALCACHE_DIR="${XDG_STATE_HOME}/zsh/.zsh-evalcache"
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # fzf catppuccin-mocha theme
-export FZF_DEFAULT_OPTS=" \
+export FZF_DEFAULT_OPTS="--pointer='➤' \
 --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
 --color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
 --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
@@ -81,6 +84,8 @@ if command_exists brew; then
   path_add "${CURL_DIR}/bin" before
 fi
 
+export FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:$FPATH"
+
 # Remove empty components to prevent '::' or './' in $PATH and related issues
 path=( "${path[@]:#}" )
 fpath=( "${fpath[@]:#}" )
@@ -94,7 +99,7 @@ manpath=( "${manpath[@]:#}" )
 command_exists mise && _evalcache mise activate zsh
 command_exists zoxide && _evalcache zoxide init zsh --cmd cd
 command_exists fzf && _evalcache fzf --zsh
-is_linux && command_exists brew && _evalcache brew shellenv
+# is_linux && command_exists brew && _evalcache brew shellenv
 # command_exists direnv && _evalcache direnv hook zsh
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
