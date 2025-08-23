@@ -28,7 +28,6 @@ brew 'lima-additional-guestagents'
 brew 'mas'
 # brew 'mise'
 # brew 'neovim'  # will enable after sometime
-brew 'powerlevel10k'
 brew 'ripgrep'
 brew 'stow'
 brew 'tig'
