@@ -145,7 +145,7 @@ path_clean() {
 
 function timeshell() {
   shell=${1-$SHELL}
-  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+  for i in $(seq 1 10); do time $shell -i -c exit; done
 }
 
 if is_macos; then
@@ -187,6 +187,7 @@ if is_linux; then
   SKIP_CONFIRMATION=${SKIP_CONFIRMATION:-false}
   INSTALL_K3S=${INSTALL_K3S:-true}
   INSTALL_FZF=${INSTALL_FZF:-true}
+  INSTALL_YQ=${INSTALL_YQ:-true}
 
   manage_apt_packages() {
     info "📦 Checking for APT updates and installing from .packages"
@@ -201,7 +202,7 @@ if is_linux; then
       info "🔄 Upgradable packages detected:"
       echo "$UPGRADABLE" | awk '{print "  ⬆️ " $1}'
       if _confirm_action "⚠️  Do you want to upgrade all packages?"; then
-        sudo apt-get upgrade -y
+        sudo apt-get upgrade -y -q
       else
         warn "⏭️  Skipped upgrade"
       fi
@@ -213,8 +214,12 @@ if is_linux; then
       info "📦 Ensuring required packages from .packages are installed..."
       xargs -a "${HOME}/.packages" sudo apt-get install -y -q
     else
-      warn "⚠️  No .packages file found at ${HOME}/.packages"
+      warn "⚠️  Missing ${HOME}/.packages file"
     fi
+
+    info "🧹 Executing cleanup"
+    sudo apt-get autoclean -y -q
+    sudo apt-get autoremove -y -q
   }
 
   install_or_update_k3s() {
@@ -224,8 +229,20 @@ if is_linux; then
 
     local latest="$BINARY_LATEST_VERSION"
 
+    local default_config_location="/etc/rancher/k3s/config.yaml"
+
+    if ! is_file "$default_config_location"; then
+      warn "$default_config_location file missing."
+      if _confirm_action "Proceed to install k3s with default configuration?"; then
+        info "Installing k3s with default configuration"
+      else
+        error "Add $default_config_location file with necessary values. (or copy from homelab)"
+        return
+      fi
+    fi
+
     if _confirm_action "⚠️  Proceed to install/update k3s $latest?"; then
-      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="$latest" K3S_KUBECONFIG_MODE=644 sh -s - --disable traefik --disable servicelb || {
+      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="$latest" sh - || {
         error "❌ Failed to install/update k3s"
         return
       }
@@ -260,12 +277,37 @@ if is_linux; then
     fi
   }
 
+  install_or_update_yq() {
+    if ! _verify_binary_update "yq" INSTALL_YQ "mikefarah/yq" "yq --version | awk '{print $NF}'"; then
+      return
+    fi
+
+    local latest="$BINARY_LATEST_VERSION"
+
+    if _confirm_action "⚠️  Proceed to install/update yq $latest?"; then
+      destination="${PERSONAL_BIN_DIR:-${HOME}/bin}/yq"
+      arch=$(dpkg --print-architecture)
+      os_type=$(uname | tr '[:upper:]' '[:lower:]')
+      url="https://github.com/mikefarah/yq/releases/download/${latest}/yq_${os_type}_${arch}"
+      info "⬇️ Downloading yq from $url..."
+      curl -fsSL "$url" -o "$destination" || { error "❌ Failed to download yq binary"; return; }
+      chmod +x "$destination"
+      success "✅ yq is now at version $latest"
+    else
+      warn "⏭️  Skipped yq install/update"
+    fi
+  }
+
   _confirm_action() {
     local prompt="$1"
     if [[ "$SKIP_CONFIRMATION" == true ]]; then
       return 0
     fi
-    read "confirm?$prompt [y/N]: "
+    if [[ -n "$ZSH_VERSION" ]]; then
+        read "confirm?$prompt [y/n]: "
+    else
+        read -p "$prompt [y/n]: " confirm
+    fi
     [[ "$confirm" =~ ^[Yy]$ ]]
   }
 

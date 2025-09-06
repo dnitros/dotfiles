@@ -36,7 +36,7 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
-export DOTFILES_DIR="${HOME}/.dotfiles"
+export DOTFILES_DIR="${HOME}/dev/dnitros/dotfiles"
 export PERSONAL_BIN_DIR="${HOME}/bin"
 
 # Support colors in less
@@ -107,7 +107,9 @@ path_add "${HOMEBREW_PREFIX}/sbin" before
 path_add "${HOME}/bin"
 path_add "${HOME}/.local/bin"
 
+command_exists fzf && eval "$(fzf --bash)"
 command_exists zoxide && eval "$(zoxide init bash --cmd cd)"
+command_exists direnv && eval "$(direnv hook bash)"
 command_exists k3s && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 path_remove "/usr/local/games"
