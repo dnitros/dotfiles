@@ -37,7 +37,7 @@ zinit wait lucid for \
 
 # setup gcloud completions and path
 if command_exists gcloud; then
-  CLOUDSDK_HOME="${HOMEBREW_PREFIX}/Caskroom/gcloud-cli/latest/google-cloud-sdk"
+  CLOUDSDK_HOME="${HOMEBREW_PREFIX}/share/google-cloud-sdk"
   zinit ice wait lucid;
   zinit snippet OMZP::gcloud;
 fi
