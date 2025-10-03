@@ -1,6 +1,6 @@
 return {
   "folke/noice.nvim",
-  event = "CmdlineEnter",
+  event = "VeryLazy",
   opts = {
     routes = {
       {
@@ -16,6 +16,9 @@ return {
             {
               find = "; before #%d+",
             },
+            {
+              find = "TS.*",
+            },
           },
         },
         view = "mini",
@@ -26,15 +29,15 @@ return {
       command_palette = true,
       long_message_to_split = true,
     },
+    lsp = {
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+      },
+    },
   },
   dependencies = {
-    {
-      "MunifTanjim/nui.nvim",
-      lazy = true,
-    },
-    {
-      "rcarriga/nvim-notify",
-      lazy = true,
-    },
+    "MunifTanjim/nui.nvim",
+    "rcarriga/nvim-notify",
   },
 }

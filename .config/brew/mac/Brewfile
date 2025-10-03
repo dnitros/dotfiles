@@ -27,10 +27,10 @@ brew 'jq'
 brew 'kubernetes-cli'
 brew 'k9s'
 brew 'lima-additional-guestagents'
-# brew 'luarocks' # will enable after sometime
+brew 'luarocks'
 brew 'mas'
 # brew 'mise'
-# brew 'neovim'  # will enable after sometime
+brew 'neovim'
 brew 'ripgrep'
 brew 'stow'
 brew 'tig'

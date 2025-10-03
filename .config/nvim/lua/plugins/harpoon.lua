@@ -2,10 +2,7 @@ return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
   dependencies = {
-    {
-      "nvim-lua/plenary.nvim",
-      lazy = true,
-    },
+    "nvim-lua/plenary.nvim",
   },
   keys = function()
     local keys = {

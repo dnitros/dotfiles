@@ -4,7 +4,7 @@ return {
     "BufReadPre",
     "BufNewFile",
   },
-  config = function()
+  config = function ()
     require("gitsigns").setup()
   end,
 }

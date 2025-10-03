@@ -1,10 +1,13 @@
 build-essential
 containerd.io
+cryptsetup
 curl
 direnv
+dmsetup
 dnsutils
 kitty-terminfo
-nfs-kernel-server
+nfs-common
 ninja-build
+open-iscsi
 tailscale
 time

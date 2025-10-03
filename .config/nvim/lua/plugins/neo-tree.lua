@@ -1,19 +1,12 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
   dependencies = {
     {
       "nvim-lua/plenary.nvim",
-      lazy = true,
+      version = false,
     },
-    {
-      "nvim-tree/nvim-web-devicons",
-      lazy = true,
-    },
-    {
-      "MunifTanjim/nui.nvim",
-      lazy = true,
-    },
+    "nvim-tree/nvim-web-devicons",
+    "MunifTanjim/nui.nvim",
   },
   init = function()
     vim.g.loaded_netrw = 1
@@ -28,6 +21,8 @@ return {
     },
   },
   opts = {
+    log_level = "info",
+    close_if_last_window = true,
     filesystem = {
       filtered_items = {
         visible = false,
@@ -39,7 +34,11 @@ return {
           ".git",
         },
       },
-      hijack_netrw_behavior = "open_default",
+      follow_current_file = {
+        enabled = true,
+        leave_dirs_open = true,
+      },
+      hijack_netrw_behavior = "disabled",
     },
   },
 }
