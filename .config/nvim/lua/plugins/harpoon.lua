@@ -3,6 +3,7 @@ return {
   branch = "harpoon2",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    version = false,
   },
   keys = function()
     local keys = {
