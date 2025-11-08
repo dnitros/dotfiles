@@ -186,7 +186,7 @@ fi
 if is_linux; then
   SKIP_CONFIRMATION=${SKIP_CONFIRMATION:-false}
   INSTALL_K3S=${INSTALL_K3S:-true}
-  INSTALL_FZF=${INSTALL_FZF:-true}
+  INSTALL_FZF=${INSTALL_FZF:-false}
   INSTALL_YQ=${INSTALL_YQ:-true}
 
   manage_apt_packages() {
