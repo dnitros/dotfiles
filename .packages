@@ -1,7 +1,12 @@
 build-essential
+ca-certificates
+containerd.io
 curl
 dmsetup
 dnsutils
+docker-buildx-plugin
 docker-ce
+docker-ce-cli
+docker-compose-plugin
 kitty-terminfo
 tailscale
