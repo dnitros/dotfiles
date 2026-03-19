@@ -29,6 +29,7 @@ fi
 if command_exists colima; then
   alias clst='colima start -c 6 -m 8 && echo "Please approve for creating softlink to /var/run/docker.sock" && sudo ln -sf ${XDG_CONFIG_HOME}/colima/default/docker.sock /var/run/docker.sock'
   alias clstp='colima stop && echo "Please approve to remove softlink /var/run/docker.sock" && sudo rm /var/run/docker.sock'
+  alias clrp='colima stop -f && rm -rf ${XDG_CONFIG_HOME}/colima/_lima/_networks && clst'
 fi
 
 if command_exists docker; then

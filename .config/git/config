@@ -81,7 +81,7 @@
   diffFilter = delta --color-only
 [log]
   abbrevCommit = true
-  showSignature = true
+  showSignature = false
 [merge]
   autoStash = true
   conflictstyle = diff3

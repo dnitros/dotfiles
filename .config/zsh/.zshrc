@@ -56,6 +56,20 @@ if command_exists brew; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Path Configuration
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+path_add "${PERSONAL_BIN_DIR}"
+path_remove "/usr/local/games"
+path_remove "/usr/games"
+
+if command_exists brew; then
+  CURL_DIR="${HOMEBREW_PREFIX}/opt/curl"
+  path_add "${CURL_DIR}/bin" before
+fi
+
+export FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:$FPATH"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Load configurations
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 config_files=(
@@ -73,18 +87,8 @@ for config in "${config_files[@]}"; do
 done
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Path Configuration
+# Path Cleanup
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-path_add "${PERSONAL_BIN_DIR}"
-path_remove "/usr/local/games"
-path_remove "/usr/games"
-
-if command_exists brew; then
-  CURL_DIR="${HOMEBREW_PREFIX}/opt/curl"
-  path_add "${CURL_DIR}/bin" before
-fi
-
-export FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:$FPATH"
 
 # Remove empty components to prevent '::' or './' in $PATH and related issues
 path=( "${path[@]:#}" )

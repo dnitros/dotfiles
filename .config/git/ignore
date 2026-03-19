@@ -4,5 +4,7 @@
 *.zwc
 *.zwc.old
 
+.github/agents/
+.github/instructions/
 .idea/
 .sdkmanrc
