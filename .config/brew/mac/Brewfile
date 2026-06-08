@@ -1,4 +1,4 @@
-cask_args appdir: '/Applications', no_quarantine: true
+cask_args appdir: '/Applications', require_sha: true
 
 tap 'hashicorp/tap'
 
@@ -8,6 +8,7 @@ brew 'bat'
 brew 'btop'
 brew 'colima'
 brew 'curl'
+brew 'direnv'
 brew 'docker'
 brew 'docker-buildx'
 brew 'docker-compose'
@@ -23,11 +24,13 @@ brew 'go'
 brew 'hashicorp/tap/terraform'
 brew 'helm'
 brew 'jq'
+brew 'k3d'
+brew 'k9s'
 brew 'kubernetes-cli'
 brew 'lima-additional-guestagents'
 brew 'luarocks'
 brew 'mas'
-# brew 'mise'
+brew 'mise'
 brew 'neovim'
 brew 'ripgrep'
 brew 'stow'
@@ -43,25 +46,21 @@ brew 'zsh'
 
 # ----------------------------------------------------------------------------------------------------------
 cask '1password'
+cask 'alfred'
 cask 'appcleaner'
 cask 'brave-browser'
-cask 'dbeaver-community'
+cask 'claude-code'
 cask 'discord'
 cask 'firefox'
 cask 'flycut'
 cask 'font-jetbrains-mono-nerd-font'
-cask 'gcloud-cli'
 cask 'hashicorp/tap/hashicorp-vagrant'
 cask 'intellij-idea'
-cask 'iterm2'
 cask 'jordanbaird-ice'
 cask 'keybase'
 cask 'kitty'
-cask 'omnissa-horizon-client'
-cask 'raycast'
 cask 'rectangle'
 cask 'slack'
-cask 'soapui'
 cask 'spotify'
 cask 'tailscale-app'
 cask 'virtualbox'
@@ -71,16 +70,14 @@ cask 'zoom'
 
 # ----------------------------------------------------------------------------------------------------------
 mas 'Bitwarden', id: 1352778147
-mas 'Infuse', id: 1136220934
 mas 'Velja', id: 1607635845
 mas 'Yubico Authenticator', id: 1497506650
 
 # ----------------------------------------------------------------------------------------------------------
 vscode 'catppuccin.catppuccin-vsc'
 vscode 'catppuccin.catppuccin-vsc-icons'
-vscode 'eamodio.gitlens'
 vscode 'esbenp.prettier-vscode'
-vscode 'github.copilot-chat'
+# vscode 'github.copilot-chat'
 vscode 'golang.go'
 vscode 'hashicorp.terraform'
 vscode 'ibm.output-colorizer'

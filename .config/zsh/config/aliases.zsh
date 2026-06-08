@@ -22,7 +22,7 @@ alias code-gist='code ${DOTFILES_DIR} ${HOME}/.gitconfig.d/* ${HOME}/.gitignore'
 if command_exists brew; then
   alias bcg='brew outdated --greedy'
   alias bcug='brew upgrade --greedy'
-  alias bupc='brew bundle check || brew bundle --all --cleanup; brew bundle cleanup -f --zap; brew cleanup --prune=all; brew autoremove; brew upgrade'
+  alias bupc='brew bundle check || brew bundle --force-cleanup || true; brew bundle cleanup -f || true; brew cleanup --prune=all || true; brew autoremove || true; brew upgrade || true;'
 fi
 
 # colima and docker
