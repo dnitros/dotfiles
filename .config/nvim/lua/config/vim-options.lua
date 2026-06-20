@@ -1,5 +1,7 @@
 vim.g.mapleader = " "
 
+vim.g.clipboard = "osc52"
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 

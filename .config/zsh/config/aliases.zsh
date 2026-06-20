@@ -2,7 +2,7 @@
 
 alias path='echo -e ${PATH//:/\\n}'
 if command_exists nvim; then
-  alias vi='nvim'
+  alias vi='nvim; printf "\e[6 q"'
 elif command_exists vim; then
   alias vi='vim'
 fi
