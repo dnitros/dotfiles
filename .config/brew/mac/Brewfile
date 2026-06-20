@@ -1,6 +1,6 @@
 cask_args appdir: '/Applications', require_sha: true
 
-tap 'hashicorp/tap'
+tap 'hashicorp/tap', trusted: true
 
 # ----------------------------------------------------------------------------------------------------------
 brew 'bash'
@@ -37,6 +37,7 @@ brew 'stow'
 brew 'tig'
 brew 'tlrc'
 brew 'tmux'
+brew 'tree-sitter-cli'
 brew 'vim'
 brew 'vivid'
 brew 'watch'
