@@ -28,7 +28,7 @@ set laststatus=2
 set shiftwidth=2
 
 " tabbing
-set list listchars=nbsp:¬,tab:»·,trail:·,extends:>
+set list listchars=nbsp:_,tab:>-,trail:.,extends:>
 set expandtab
 set smarttab
 set smartindent

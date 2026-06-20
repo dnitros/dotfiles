@@ -36,8 +36,8 @@ export FZF_DEFAULT_OPTS="--pointer='➤' \
 --color=border:#6C7086,label:#CDD6F4"
 
 # Preferred editor
-is_non_zero_string "${SSH_CONNECTION}" && export EDITOR="vi"
-command_exists vi && ! is_non_zero_string "${EDITOR}" && export EDITOR="vi"
+is_non_zero_string "${SSH_CONNECTION}" && export EDITOR="vim"
+command_exists vim && ! is_non_zero_string "${EDITOR}" && export EDITOR="vim"
 
 # Use bat to colorize man pages
 command_exists bat && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
