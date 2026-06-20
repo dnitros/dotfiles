@@ -24,6 +24,8 @@ return {
       "json",
       "yaml",
       "markdown",
+      "query",
+      "regex",
     }
 
     ts.install(ensure_installed, { summary = true })
