@@ -1,6 +1,6 @@
 cask_args appdir: '/Applications', require_sha: true
 
-tap 'hashicorp/tap', trusted: true
+tap 'hashicorp/tap'
 
 # ----------------------------------------------------------------------------------------------------------
 brew 'bash'
@@ -21,7 +21,7 @@ brew 'git-delta'
 brew 'git-extras'
 brew 'git-interactive-rebase-tool'
 brew 'go'
-brew 'hashicorp/tap/terraform'
+brew 'hashicorp/tap/terraform', trusted: true
 brew 'helm'
 brew 'jq'
 brew 'k3d'
@@ -55,7 +55,6 @@ cask 'discord'
 cask 'firefox'
 cask 'flycut'
 cask 'font-jetbrains-mono-nerd-font'
-cask 'hashicorp/tap/hashicorp-vagrant'
 cask 'intellij-idea'
 cask 'jordanbaird-ice'
 cask 'keybase'
@@ -64,7 +63,6 @@ cask 'rectangle'
 cask 'slack'
 cask 'spotify'
 cask 'tailscale-app'
-cask 'virtualbox'
 cask 'visual-studio-code'
 cask 'whatsapp'
 cask 'zoom'
