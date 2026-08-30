@@ -21,6 +21,18 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 export DOTFILES_DIR="${HOME}/dev/dnitros/dotfiles"
 export PERSONAL_BIN_DIR="${HOME}/bin"
 
+# github copilot home
+export COPILOT_HOME="${XDG_STATE_HOME}/copilot"
+
+# docker config
+export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
+
+# ruby bundler config
+# export BUNDLE_USER_HOME="${HOME}/.bundle" enable if needed
+export BUNDLE_USER_CACHE="${XDG_CACHE_HOME}/bundle"
+export BUNDLE_USER_CONFIG="${XDG_CONFIG_HOME}/bundle"
+export BUNDLE_USER_PLUGIN="${XDG_DATA_HOME}/bundle"
+
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]
 then

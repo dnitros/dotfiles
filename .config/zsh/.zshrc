@@ -16,6 +16,11 @@ type load_file_if_exists &> /dev/null 2>&1 || source "${HOME}/.shellrc"
 load_file_if_exists "${XDG_CACHE_HOME}/p10k-instant-prompt-$(whoami).zsh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Enable Orbstack integration
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+load_file_if_exists "${HOME}/.orbstack/shell/init.zsh"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Load environment variables
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Generate catppuccin-mocha theme for LS_COLORS

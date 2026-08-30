@@ -1,5 +1,7 @@
 " file location: ${HOME}/.vimrc
 
+runtime xdg.vim
+
 set nocompatible              " be iMproved, required
 " filetype off                  " required
 

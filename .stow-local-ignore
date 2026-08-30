@@ -27,3 +27,6 @@ _darcs
 
 # ignore scripts directory
 ^/scripts(/.*)?
+
+# idea directory
+\.idea

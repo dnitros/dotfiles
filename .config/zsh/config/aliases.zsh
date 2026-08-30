@@ -14,7 +14,6 @@ else
 fi
 command_exists bat && alias cat='bat'
 command_exists btop && alias top='btop'
-command_exists _awsp && alias awsp="source _awsp"
 
 alias code-gist='code ${DOTFILES_DIR} ${HOME}/.gitconfig.d/* ${HOME}/.gitignore'
 
