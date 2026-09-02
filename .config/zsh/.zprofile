@@ -35,6 +35,7 @@ export BUNDLE_USER_PLUGIN="${XDG_DATA_HOME}/bundle"
 
 # claude config directory change
 export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
+export CLAUDE_MEM_DATA_DIR="${XDG_DATA_HOME}/claude-mem"
 
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]
