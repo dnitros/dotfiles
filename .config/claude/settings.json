@@ -95,6 +95,7 @@
       }
     }
   },
+  "outputStyle": "Explanatory",
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
@@ -114,6 +115,5 @@
     "claude-opus-5": {
       "effortLevel": "medium"
     }
-  },
-  "outputStyle": "Explanatory"
+  }
 }

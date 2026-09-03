@@ -15,7 +15,7 @@ fi
 command_exists bat && alias cat='bat'
 command_exists btop && alias top='btop'
 
-alias code-gist='code ${DOTFILES_DIR} ${HOME}/.gitconfig.d/* ${HOME}/.gitignore'
+alias code-gist='code ${DOTFILES_DIR} ${HOME}/.gitconfig.d/*(N) ${HOME}/.gitignore'
 
 # brew aliases
 if command_exists brew; then

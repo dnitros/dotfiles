@@ -30,3 +30,6 @@ _darcs
 
 # idea directory
 \.idea
+
+# project CLAUDE.md file
+CLAUDE.md

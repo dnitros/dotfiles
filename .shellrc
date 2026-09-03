@@ -167,7 +167,7 @@ fi
 
 if [[ "${SHELL}" == */bash ]]; then
   load_bash_configs() {
-    file_list=('.bash_profile' '.bashrc' '.bash_aliases', '.bashrc.local', '.bash_completion')
+    file_list=('.bash_profile' '.bashrc' '.bash_aliases' '.bashrc.local' '.bash_completion')
     for file in "${file_list[@]}"; do
       load_file_if_exists "${HOME}/${file}"
     done

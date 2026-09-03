@@ -46,8 +46,3 @@ To remove symlinks created by Stow:
 ```bash
 stow -t "${HOME}" -D .
 ```
-
----
-
-## Fallback Installation
-If for some reason the Stow-based installation does not work, you can follow the instructions in the [scripts/INSTALL.md](scripts/INSTALL.md) file.

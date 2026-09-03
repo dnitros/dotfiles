@@ -35,7 +35,14 @@ export BUNDLE_USER_PLUGIN="${XDG_DATA_HOME}/bundle"
 
 # claude config directory change
 export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
-export CLAUDE_MEM_DATA_DIR="${XDG_DATA_HOME}/claude-mem"
+
+# bun related config
+export BUN_INSTALL_GLOBAL_DIR="${XDG_STATE_HOME}/bun/install/global"
+export BUN_INSTALL_BIN="${XDG_STATE_HOME}/bun/bin"
+export BUN_INSTALL_CACHE_DIR="${XDG_CACHE_HOME}/bun/install/cache"
+
+# npm related config
+export NPM_CONFIG_CACHE="${XDG_CACHE_HOME}/npm"
 
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]
