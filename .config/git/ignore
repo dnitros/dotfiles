@@ -8,3 +8,5 @@
 .github/instructions/
 .idea/
 .sdkmanrc
+
+**/.claude/.cc-writes/
