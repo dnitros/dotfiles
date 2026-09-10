@@ -49,7 +49,7 @@
       "Read(~/.netrc)",
       "Read(~/.cargo/credentials.toml)"
     ],
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "auto"
   },
   "enableAllProjectMcpServers": true,
   "disableClaudeAiConnectors": true,
@@ -103,7 +103,7 @@
   },
   "outputStyle": "Explanatory",
   "sandbox": {
-    "enabled": true,
+    "enabled": false,
     "failIfUnavailable": true,
     "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": false,
