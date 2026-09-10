@@ -51,67 +51,6 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "sandbox": {
-    "enabled": true,
-    "failIfUnavailable": true,
-    "allowUnsandboxedCommands": false,
-    "autoAllowBashIfSandboxed": true,
-    "excludedCommands": ["docker *", "gh *", "terraform plan *", "git *"],
-    "network": {
-      "strictAllowlist": true,
-      "allowedDomains": [
-        "github.com", "*.githubusercontent.com",
-        "registry.npmjs.org", "pypi.org", "files.pythonhosted.org",
-        "rubygems.org", "crates.io", "proxy.golang.org", "sum.golang.org",
-        "formulae.brew.sh", "ghcr.io", "homebrew.github.io",
-        "*.amazonaws.com", "*.googleapis.com", "*.azure.com",
-        "login.microsoftonline.com",
-        "api.anthropic.com", "console.anthropic.com",
-        "statsig.anthropic.com", "sentry.io",
-        "registry-1.docker.io", "auth.docker.io",
-        "production.cloudflare.docker.com"
-      ]
-    },
-    "credentials": {
-      "files": [
-        { "path": "~/.ssh/**", "mode": "deny" },
-        { "path": "~/.gnupg/**", "mode": "deny" },
-        { "path": "~/.aws/**", "mode": "deny" },
-        { "path": "~/.azure/**", "mode": "deny" },
-        { "path": "~/.config/gh/**", "mode": "deny" },
-        { "path": "~/.git-credentials", "mode": "deny" },
-        { "path": "~/.config/docker/config.json", "mode": "deny" },
-        { "path": "~/.kube/**", "mode": "deny" },
-        { "path": "~/.npmrc", "mode": "deny" },
-        { "path": "~/.npm/**", "mode": "deny" },
-        { "path": "~/.pypirc", "mode": "deny" },
-        { "path": "~/.gem/credentials", "mode": "deny" },
-        { "path": "~/Library/Keychains/**", "mode": "deny" },
-        { "path": "~/.config/gcloud/**", "mode": "deny" },
-        { "path": "~/.netrc", "mode": "deny" },
-        { "path": "~/.cargo/credentials.toml", "mode": "deny" }
-      ],
-      "envVars": [
-        { "name": "ANTHROPIC_API_KEY", "mode": "deny" },
-        { "name": "GITHUB_TOKEN", "mode": "deny" },
-        { "name": "GH_TOKEN", "mode": "deny" },
-        { "name": "NPM_TOKEN", "mode": "deny" },
-        { "name": "AWS_ACCESS_KEY_ID", "mode": "deny" },
-        { "name": "AWS_SECRET_ACCESS_KEY", "mode": "deny" },
-        { "name": "AWS_SESSION_TOKEN", "mode": "deny" },
-        { "name": "GOOGLE_APPLICATION_CREDENTIALS", "mode": "deny" },
-        { "name": "AZURE_CLIENT_SECRET", "mode": "deny" },
-        { "name": "DOCKER_AUTH_CONFIG", "mode": "deny" }
-      ]
-    },
-    "filesystem": {
-      "denyWrite": [
-        "~/.config/claude/settings.json",
-        "./.claude/settings.json",
-        "./.claude/settings.local.json"
-      ]
-    }
-  },
   "enableAllProjectMcpServers": true,
   "disableClaudeAiConnectors": true,
   "hooks": {
@@ -163,6 +102,163 @@
     }
   },
   "outputStyle": "Explanatory",
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
+    "autoAllowBashIfSandboxed": true,
+    "allowUnsandboxedCommands": false,
+    "network": {
+      "allowedDomains": [
+        "github.com",
+        "*.githubusercontent.com",
+        "registry.npmjs.org",
+        "pypi.org",
+        "files.pythonhosted.org",
+        "rubygems.org",
+        "crates.io",
+        "proxy.golang.org",
+        "sum.golang.org",
+        "formulae.brew.sh",
+        "ghcr.io",
+        "homebrew.github.io",
+        "*.amazonaws.com",
+        "*.googleapis.com",
+        "*.azure.com",
+        "login.microsoftonline.com",
+        "api.anthropic.com",
+        "console.anthropic.com",
+        "statsig.anthropic.com",
+        "sentry.io",
+        "registry-1.docker.io",
+        "auth.docker.io",
+        "production.cloudflare.docker.com"
+      ],
+      "strictAllowlist": true
+    },
+    "filesystem": {
+      "denyWrite": [
+        "~/.config/claude/settings.json",
+        "./.claude/settings.json",
+        "./.claude/settings.local.json"
+      ]
+    },
+    "credentials": {
+      "files": [
+        {
+          "path": "~/.ssh/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.gnupg/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.aws/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.azure/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.config/gh/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.git-credentials",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.config/docker/config.json",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.kube/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.npmrc",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.npm/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.pypirc",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.gem/credentials",
+          "mode": "deny"
+        },
+        {
+          "path": "~/Library/Keychains/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.config/gcloud/**",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.netrc",
+          "mode": "deny"
+        },
+        {
+          "path": "~/.cargo/credentials.toml",
+          "mode": "deny"
+        }
+      ],
+      "envVars": [
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "mode": "deny"
+        },
+        {
+          "name": "GITHUB_TOKEN",
+          "mode": "deny"
+        },
+        {
+          "name": "GH_TOKEN",
+          "mode": "deny"
+        },
+        {
+          "name": "NPM_TOKEN",
+          "mode": "deny"
+        },
+        {
+          "name": "AWS_ACCESS_KEY_ID",
+          "mode": "deny"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "mode": "deny"
+        },
+        {
+          "name": "AWS_SESSION_TOKEN",
+          "mode": "deny"
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS",
+          "mode": "deny"
+        },
+        {
+          "name": "AZURE_CLIENT_SECRET",
+          "mode": "deny"
+        },
+        {
+          "name": "DOCKER_AUTH_CONFIG",
+          "mode": "deny"
+        }
+      ]
+    },
+    "excludedCommands": [
+      "docker *",
+      "gh *",
+      "terraform plan *",
+      "git *"
+    ]
+  },
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
@@ -170,6 +266,7 @@
   "plansDirectory": "./.claude/plans",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "editorMode": "normal",
   "autoCompactEnabled": true,
