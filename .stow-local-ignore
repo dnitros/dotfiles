@@ -31,5 +31,6 @@ _darcs
 # idea directory
 \.idea
 
-# project CLAUDE.md file
-CLAUDE.md
+# project related claude files and directories
+\.claude
+^/CLAUDE.md

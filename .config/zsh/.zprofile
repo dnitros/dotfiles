@@ -33,9 +33,6 @@ export BUNDLE_USER_CACHE="${XDG_CACHE_HOME}/bundle"
 export BUNDLE_USER_CONFIG="${XDG_CONFIG_HOME}/bundle"
 export BUNDLE_USER_PLUGIN="${XDG_DATA_HOME}/bundle"
 
-# claude config directory change
-export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
-
 # bun related config
 export BUN_INSTALL_GLOBAL_DIR="${XDG_STATE_HOME}/bun/install/global"
 export BUN_INSTALL_BIN="${XDG_STATE_HOME}/bun/bin"

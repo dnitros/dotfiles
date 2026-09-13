@@ -27,13 +27,14 @@ sudo apt install git stow -y
    ```bash
    cd
    mkdir -p "${HOME}/.config"
+   mkdir -p "${HOME}/.claude"
    git clone https://github.com/dnitros/dotfiles.git
    cd dotfiles
    ```
 
 2. Use **GNU Stow** to create symlinks:
    ```bash
-   stow -t "${HOME}" .
+   stow --dotfiles -t "${HOME}" .
    ```
 
 This will symlink the configuration files into your home directory.
@@ -44,5 +45,5 @@ This will symlink the configuration files into your home directory.
 To remove symlinks created by Stow:
 
 ```bash
-stow -t "${HOME}" -D .
+stow --dotfiles -t "${HOME}" -D .
 ```
