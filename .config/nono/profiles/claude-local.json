@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "name": "claude-local",
+    "description": "Local additions to nolabs-ai/claude: git SSH signing key, delta config, gitconfig.d, credential env var stripping"
+  },
+  "extends": "nolabs-ai/claude",
+  "filesystem": {
+    "read": [
+      "$HOME/.config/delta",
+      "$HOME/.gitconfig.d"
+    ],
+    "read_file": [
+      "$HOME/.ssh/id_ed25519.pub"
+    ],
+    "bypass_protection": [
+      "$HOME/.ssh/id_ed25519.pub"
+    ]
+  },
+  "environment": {
+    "deny_vars": [
+      "ANTHROPIC_API_KEY",
+      "GITHUB_TOKEN",
+      "GH_TOKEN",
+      "NPM_TOKEN",
+      "AWS_ACCESS_KEY_ID",
+      "AWS_SECRET_ACCESS_KEY",
+      "AWS_SESSION_TOKEN",
+      "GOOGLE_APPLICATION_CREDENTIALS",
+      "AZURE_CLIENT_SECRET",
+      "DOCKER_AUTH_CONFIG"
+    ]
+  }
+}

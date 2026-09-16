@@ -48,7 +48,7 @@
       "Read(~/.netrc)",
       "Read(~/.cargo/credentials.toml)"
     ],
-    "defaultMode": "auto"
+    "defaultMode": "bypassPermissions"
   },
   "enableAllProjectMcpServers": true,
   "disableClaudeAiConnectors": true,
@@ -77,7 +77,8 @@
     "gsd-core@gsd-core": false,
     "impeccable@impeccable": false,
     "security-guidance@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": true,
+    "nono@nolabs-ai": true
   },
   "extraKnownMarketplaces": {
     "gsd-core": {
@@ -95,7 +96,7 @@
   },
   "outputStyle": "Explanatory",
   "sandbox": {
-    "enabled": false,
+    "enabled": true,
     "failIfUnavailable": true,
     "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": false,

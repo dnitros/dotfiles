@@ -34,3 +34,5 @@ _darcs
 # project related claude files and directories
 \.claude
 ^/CLAUDE.md
+
+\.DS_Store

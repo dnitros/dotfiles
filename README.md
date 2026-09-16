@@ -27,6 +27,7 @@ sudo apt install git stow -y
    ```bash
    cd
    mkdir -p "${HOME}/.config"
+   mkdir -p "${HOME}/.config/nono/profiles"
    mkdir -p "${HOME}/.claude"
    git clone https://github.com/dnitros/dotfiles.git
    cd dotfiles
