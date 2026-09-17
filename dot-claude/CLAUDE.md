@@ -143,3 +143,7 @@ Applies to anything meant to outlast the session — docs, runbooks, READMEs, AD
 - Use durable memory/notes for preferences, corrections, and facts that outlive the session — don't ask for the same information twice.
 - Project-specific context belongs in that project's own CLAUDE.md; machine-specific facts (OS, shell, local paths, installed tools) belong in a separate machine-local file rather than duplicated per project.
 - Progress lives in commits, docs, and code, not only conversation history — long-running work should leave a trail that survives a fresh session.
+
+# graphify
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.

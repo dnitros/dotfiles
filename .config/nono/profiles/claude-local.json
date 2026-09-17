@@ -8,7 +8,8 @@
     "read": [
       "$HOME/.config/delta",
       "$HOME/.gitconfig.d",
-      "$HOME/.config/gh"
+      "$HOME/.config/gh",
+      "$DOTFILES_DIR/dot-claude"
     ],
     "read_file": [
       "$HOME/.ssh/id_ed25519.pub",

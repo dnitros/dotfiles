@@ -279,6 +279,11 @@
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "medium"
+    }
+  },
   "fastModePerSessionOptIn": true,
   "plansDirectory": "./.claude/plans",
   "tui": "fullscreen",
@@ -291,10 +296,5 @@
   "fileCheckpointingEnabled": true,
   "remoteControlAtStartup": false,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
-  "modelSettings": {
-    "claude-opus-5": {
-      "effortLevel": "medium"
-    }
-  }
+  "agentPushNotifEnabled": true
 }

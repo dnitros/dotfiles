@@ -36,3 +36,6 @@ _darcs
 ^/CLAUDE.md
 
 \.DS_Store
+
+# ignore graphify output directory
+^/graphify-out

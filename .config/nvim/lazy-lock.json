@@ -10,11 +10,11 @@
   "mini.statusline": { "branch": "main", "commit": "b5547f44560dae3ccd81f914256fa6f705837022" },
   "mini.surround": { "branch": "main", "commit": "580e4cb98c5900d9fe743865fb5a5b2178b4ab18" },
   "mini.tabline": { "branch": "main", "commit": "7e8584a06b86902c64227e4abd0c39ae74061101" },
-  "neo-tree.nvim": { "branch": "main", "commit": "83e7a2982fd12b9c3d35bc39dd5877cd91a02a61" },
+  "neo-tree.nvim": { "branch": "main", "commit": "f3f3bf73414e400cf9fc13fda50f00404a8f8ab1" },
   "noice.nvim": { "branch": "main", "commit": "cf758e9df66451889aab56613a21b8673f045ec2" },
   "nui.nvim": { "branch": "main", "commit": "f535005e6ad1016383f24e39559833759453564e" },
   "nvim-notify": { "branch": "master", "commit": "a3020c2cf4dfc4c4f390c4a21e84e35e46cf5d17" },
-  "nvim-treesitter": { "branch": "main", "commit": "857651fce37eba032ebe28f3a206283cdc65c45a" },
+  "nvim-treesitter": { "branch": "main", "commit": "9a168f6357ed21c3a636e1727bc7d382abc451b8" },
   "nvim-web-devicons": { "branch": "master", "commit": "5b9067899ee6a2538891573500e8fd6ff008440f" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "vim-tmux-navigator": { "branch": "master", "commit": "85b8e5f60c1690cde57dbb66467ce39cd1b63343" }

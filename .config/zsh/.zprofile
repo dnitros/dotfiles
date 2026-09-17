@@ -55,4 +55,4 @@ fi
 export SHELL_SESSION_DIR="${XDG_STATE_HOME}/zsh/sessions"
 export SHELL_SESSION_FILE="${SHELL_SESSION_DIR}/${TERM_SESSION_ID}"
 
-export PATH="${HOMEBREW_PREFIX}/bin:/usr/local/bin:/usr/bin:/bin:${HOMEBREW_PREFIX}/sbin:/usr/local/sbin:/usr/sbin:/sbin:${PATH+:$PATH}"
+export PATH="${HOMEBREW_PREFIX}/bin:/usr/local/bin:/usr/bin:/bin:${XDG_DATA_HOME}/../bin:${HOMEBREW_PREFIX}/sbin:/usr/local/sbin:/usr/sbin:/sbin:${PATH+:$PATH}"
