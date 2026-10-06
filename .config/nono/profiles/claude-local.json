@@ -4,6 +4,9 @@
     "description": "Local additions to nolabs-ai/claude: git SSH signing key, delta config, gitconfig.d, credential env var stripping"
   },
   "extends": "nolabs-ai/claude",
+  "groups": {
+    "include": ["mise_manager"]
+  },
   "filesystem": {
     "read": [
       "$HOME/.config/delta",
@@ -22,6 +25,7 @@
     "suppress_save_prompt": [
       "$HOME",
       "/home",
+      "/Users",
       "$HOME/.aws",
       "$HOME/.ssh",
       "$HOME/.git",
@@ -30,6 +34,9 @@
       "$HOME/.config/docker",
       "$HOME/Library/Application Support/com.operasoftware.Opera"
     ]
+  },
+  "network": {
+    "listen_port_range": [[50000, 65535]]
   },
   "environment": {
     "deny_vars": [
@@ -57,5 +64,17 @@
         }
       }
     }
+  },
+  "open_urls": {
+    "allow_origins": [
+      "https://claude.ai",
+      "https://claude.com",
+      "https://api.anthropic.com",
+      "https://platform.claude.com",
+      "https://mcp.linear.app",
+      "https://mcp.context7.com",
+      "https://clerk.context7.com"
+    ],
+    "allow_localhost": true
   }
 }

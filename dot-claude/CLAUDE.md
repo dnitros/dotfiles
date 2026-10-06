@@ -72,7 +72,9 @@ Follow intent over wording when they diverge, and say so. Ask if genuinely unsur
 - Readability and maintainability over cleverness or premature optimization.
 - One source of truth — don't duplicate state or data to paper over a consistency problem.
 - Fix every linter/type-checker warning; if one genuinely can't be fixed, leave an inline justification rather than a silent ignore.
-- No commented-out code — delete it. Comments explain why, not what.
+- No commented-out code — delete it.
+- Comments state the why, never restate the what. If a comment's opening clause just repeats what the function or variable name already says, cut that clause — keep only the reasoning a reader couldn't infer from the code itself.
+- Never narrate the change itself in a comment: no "fixed to...", "changed from...", "per review...", "this addresses issue #...", "previously this did X". A comment describes the code's current behavior or invariant, never the history of how it got there or why a review/ticket prompted it — that belongs in the commit message or PR description, not the source, and it rots the moment the code changes again. This applies to every edit, including follow-up fixes made in response to a review or a bug found mid-task, not just first-draft code.
 - Fix small, clearly broken things you encounter; log larger unrelated ones instead of scope-creeping.
 
 ## Debugging
@@ -86,6 +88,7 @@ Follow intent over wording when they diverge, and say so. Ask if genuinely unsur
 
 - Anything that outlives the session goes in git; scratch work can skip it.
 - Conventional commits: concise, imperative, present tense.
+- Commit/PR title prefix vocabulary: `docs:`, `feat:`, `refactor:`, `test:`, `bugfix:`, `fix:`, etc. — match the prefix to the change type.
 - Never bypass hooks or checks (`--no-verify` and similar) without explicit approval.
 - On a failing check, fix the root cause and re-run — time pressure isn't a reason to bypass it.
 

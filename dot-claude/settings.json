@@ -5,6 +5,7 @@
     "CLAUDE_CODE_AUTO_CONNECT_IDE": "true",
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
     "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "DISABLE_AUTOUPDATER": "1",
     "ENABLE_TOOL_SEARCH": "true",
     "FORCE_AUTOUPDATE_PLUGINS": "1"
@@ -23,7 +24,7 @@
       "Bash(git push --force*)",
       "Bash(git push *--force*)",
       "Bash(git push -f*)",
-      "Bash(git push*-f*)",
+      "Bash(git push* -f*)",
       "Bash(git reset --hard*)",
       "Bash(docker login*)",
       "Bash(docker logout*)",
@@ -95,13 +96,14 @@
   },
   "enabledPlugins": {
     "code-review@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": false,
     "gsd-core@gsd-core": false,
     "impeccable@impeccable": false,
+    "mattpocock-skills@claude-plugins-official": true,
+    "ponytail@ponytail": true,
     "security-guidance@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": false,
     "nono@nolabs-ai": true
   },
   "extraKnownMarketplaces": {
@@ -115,6 +117,12 @@
       "source": {
         "source": "github",
         "repo": "pbakaus/impeccable"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
       }
     }
   },
@@ -278,6 +286,7 @@
   },
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
+  "model": "claude-sonnet-5-5",
   "effortLevel": "high",
   "modelSettings": {
     "claude-opus-5": {
