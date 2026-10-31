@@ -1,0 +1,9 @@
+#!/bin/sh
+# Usage: set `gpg.ssh.program` to this script's path in a git config include.
+#
+# Signs git commits and tags with a key held in Bitwarden's SSH agent.
+# Bitwarden ships no signing helper (unlike 1Password's op-ssh-sign), so git
+# falls back to ssh-keygen, which finds keys only through $SSH_AUTH_SOCK.
+# Setting the socket here limits the change to git signing instead of
+# pointing every ssh call at Bitwarden.
+SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock" exec ssh-keygen "$@"
