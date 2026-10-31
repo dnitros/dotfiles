@@ -6,8 +6,11 @@
   path = ~/.gitconfig.d/.gitconfig.inc
 [includeIf "gitdir/i:~/dev/dnitros/"]
   path = ~/.gitconfig.d/.gitconfig-personal.inc
+[includeIf "gitdir/i:~/dev/bcg/"]
+  path = ~/.gitconfig.d/.gitconfig-bcg.inc
 [alias]
   cc = "!echo \"Size before: $(du -sh .git | cut -f1)\"; git remote prune origin; git repack; git prune-packed; git reflog expire --all --expire=1.week.ago; git maintenance run --task=gc; echo \"Size after: $(du -sh .git | cut -f1)\";"
+  clone-bcg = "!cd \"${GIT_PREFIX:-.}\" && git -c url.\"git@bcg-github:\".insteadOf=\"git@github.com:\" clone"
   committers = shortlog -s --
   dangling = fsck --no-reflog
   # delete local branch

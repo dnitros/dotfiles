@@ -8,11 +8,13 @@
     "include": ["mise_manager"]
   },
   "filesystem": {
-    "read": [
-      "$HOME/.config/delta",
-      "$HOME/.gitconfig.d",
-      "$HOME/.config/gh",
+    "allow": [
       "$DOTFILES_DIR/dot-claude"
+    ],
+    "read": [
+      "$XDG_CONFIG_HOME/delta",
+      "$HOME/.gitconfig.d",
+      "$XDG_CONFIG_HOME/gh"
     ],
     "read_file": [
       "$HOME/.ssh/id_ed25519.pub",
@@ -31,7 +33,7 @@
       "$HOME/.git",
       "$HOME/.git/info/exclude",
       "$HOME/.gitignore",
-      "$HOME/.config/docker",
+      "$XDG_CONFIG_HOME/docker",
       "$HOME/Library/Application Support/com.operasoftware.Opera"
     ]
   },

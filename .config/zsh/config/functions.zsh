@@ -31,6 +31,41 @@ awsc() {
   success "AWS profile cleared"
 }
 
+# Create an extra Claude account dir (~/.claude-<name>) seeded from ~/.claude.
+# Use it by exporting CLAUDE_CONFIG_DIR in a directory's .envrc (direnv).
+claude-init() {
+  local name="$1" src="$HOME/.claude"
+  if [[ ! "$name" =~ ^[A-Za-z0-9_-]+$ ]]; then
+    echo "Usage: claude-init <name>   (letters, digits, _ and - only)"
+    return 1
+  fi
+
+  local dest="$HOME/.claude-$name"
+  if is_directory "$dest"; then
+    error "$dest already exists"
+    return 1
+  fi
+  mkdir -p "$dest"
+
+  if read -q "?Seed from $src (copy CLAUDE.md and settings.json; symlink skills, agents, commands, hooks, plugins)? [y/N] "; then
+    echo
+    local f d
+    for f in CLAUDE.md settings.json; do
+      [[ -e "$src/$f" ]] && cp -L "$src/$f" "$dest/$f"
+    done
+    for d in skills agents commands hooks plugins; do
+      [[ -e "$src/$d" ]] && ln -s "$src/$d" "$dest/$d"
+    done
+  else
+    echo
+  fi
+
+  success "Created $dest"
+  echo "Add to the parent directory's .envrc, then run 'direnv allow' there:"
+  echo "  export CLAUDE_CONFIG_DIR=\"$dest\""
+  echo "Then run 'claude' in that directory and /login."
+}
+
 idea() {
     if ! command_exists idea; then
         error "'idea' command not found."

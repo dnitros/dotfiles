@@ -62,6 +62,7 @@ cask 'intellij-idea'
 cask 'jordanbaird-ice'
 cask 'keybase'
 cask 'kitty'
+cask 'okta-verify'
 cask 'orbstack'
 cask 'rectangle'
 cask 'session-manager-plugin'
@@ -69,6 +70,7 @@ cask 'slack'
 cask 'tailscale-app'
 cask 'visual-studio-code'
 cask 'whatsapp'
+cask 'windows-app'
 cask 'zoom'
 
 # ----------------------------------------------------------------------------------------------------------
@@ -77,6 +79,7 @@ mas 'Velja', id: 1607635845
 mas 'Yubico Authenticator', id: 1497506650
 
 # ----------------------------------------------------------------------------------------------------------
+vscode 'anthropic.claude-code'
 vscode 'catppuccin.catppuccin-vsc'
 vscode 'catppuccin.catppuccin-vsc-icons'
 vscode 'esbenp.prettier-vscode'
@@ -86,6 +89,7 @@ vscode 'hashicorp.terraform'
 vscode 'ibm.output-colorizer'
 vscode 'ms-azuretools.vscode-containers'
 vscode 'ms-kubernetes-tools.vscode-kubernetes-tools'
+vscode 'ms-python.python'
 vscode 'ms-vscode-remote.remote-containers'
 vscode 'ms-vscode-remote.remote-ssh'
 vscode 'redhat.vscode-yaml'
