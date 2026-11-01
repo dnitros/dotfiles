@@ -24,6 +24,9 @@ export PERSONAL_BIN_DIR="${HOME}/bin"
 # github copilot home
 export COPILOT_HOME="${XDG_STATE_HOME}/copilot"
 
+# impeccable engine download location (default ~/.impeccable is outside the sandbox's writable paths)
+export IMPECCABLE_HOME="${XDG_CACHE_HOME}/impeccable"
+
 # docker config
 export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
 

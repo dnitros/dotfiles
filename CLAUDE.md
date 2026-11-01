@@ -18,7 +18,7 @@ stow -t "$HOME" -D .
 # Sync installed packages to the Brewfile (add/remove/upgrade/cleanup in one step)
 # aliased as `bupc` once the dotfiles are stowed (config/zsh/config/aliases.zsh)
 brew bundle check -v || brew bundle install -q
-brew bundle cleanup -f
+brew bundle cleanup -f --zap
 ```
 
 `brew bundle` needs no `--file` flag once the dotfiles are stowed: `.zprofile` sets `HOMEBREW_BUNDLE_FILE` per OS (`.config/brew/mac/Brewfile` on Darwin, `.config/brew/linux/Brewfile` on Linux). Add packages to the Brewfile and run `brew bundle` — not an ad hoc `brew install`.

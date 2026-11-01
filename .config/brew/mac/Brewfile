@@ -68,7 +68,8 @@ cask 'rectangle'
 cask 'session-manager-plugin'
 cask 'slack'
 cask 'tailscale-app'
-cask 'visual-studio-code'
+cask 'vscodium',
+  postinstall: "ln -sf \"${HOMEBREW_PREFIX}/bin/codium\" \"${HOMEBREW_PREFIX}/bin/code\""
 cask 'whatsapp'
 cask 'windows-app'
 cask 'zoom'
@@ -79,22 +80,28 @@ mas 'Velja', id: 1607635845
 mas 'Yubico Authenticator', id: 1497506650
 
 # ----------------------------------------------------------------------------------------------------------
-vscode 'anthropic.claude-code'
-vscode 'catppuccin.catppuccin-vsc'
-vscode 'catppuccin.catppuccin-vsc-icons'
-vscode 'esbenp.prettier-vscode'
-# vscode 'github.copilot-chat'
-vscode 'golang.go'
-vscode 'hashicorp.terraform'
-vscode 'ibm.output-colorizer'
-vscode 'ms-azuretools.vscode-containers'
-vscode 'ms-kubernetes-tools.vscode-kubernetes-tools'
-vscode 'ms-python.python'
-vscode 'ms-vscode-remote.remote-containers'
-vscode 'ms-vscode-remote.remote-ssh'
-vscode 'redhat.vscode-yaml'
-vscode 'rooveterinaryinc.roo-cline'
-vscode 'vscode-icons-team.vscode-icons'
+# brew installs Microsoft's VS Code when no editor command is on PATH, so the extensions are skipped
+# until 'code'. The Brewfile is evaluated before any install runs, so on a fresh machine the first
+# 'bupc' installs VSCodium and the second one installs the extensions.
+is_code_installed = !`PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}" which code`.chomp.empty?
+if is_code_installed
+  ENV['VSCODE_GALLERY_SERVICE_URL'] = 'https://marketplace.visualstudio.com/_apis/public/gallery'
+  ENV['VSCODE_GALLERY_CACHE_URL'] = 'https://vscode.blob.core.windows.net/gallery/index'
+  ENV['VSCODE_GALLERY_ITEM_URL'] = 'https://marketplace.visualstudio.com/items'
+  ENV['VSCODE_GALLERY_CONTROL_URL'] = ''
+  ENV['VSCODE_GALLERY_RECOMMENDATIONS_URL'] = ''
+  vscode 'anthropic.claude-code'
+  vscode 'catppuccin.catppuccin-vsc'
+  vscode 'catppuccin.catppuccin-vsc-icons'
+  vscode 'esbenp.prettier-vscode'
+  vscode 'golang.go'
+  vscode 'hashicorp.terraform'
+  vscode 'ibm.output-colorizer'
+  vscode 'ms-azuretools.vscode-containers'
+  vscode 'ms-kubernetes-tools.vscode-kubernetes-tools'
+  vscode 'ms-python.python'
+  vscode 'redhat.vscode-yaml'
+end
 
 # https://community.cloudflare.com/t/warp-and-warp-routing-me-through-europe-instead-of-india/533920
 # Not using as it is drastically reducing internet speed and increasing ping
