@@ -1,6 +1,3 @@
 [settings]
 idiomatic_version_file_enable_tools = ["java"]
-
-[tools]
-node = "latest"
-uv   = "latest"
+activate_shims = false
