@@ -9,7 +9,8 @@
   },
   "filesystem": {
     "allow": [
-      "$DOTFILES_DIR/dot-claude"
+      "$DOTFILES_DIR/dot-claude",
+      "$XDG_CONFIG_HOME/ponytail"
     ],
     "read": [
       "$XDG_CONFIG_HOME/delta",

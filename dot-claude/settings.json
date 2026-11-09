@@ -108,29 +108,64 @@
     "ponytail@ponytail": true,
     "security-guidance@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
-    "nono@nolabs-ai": true
+    "nono@nolabs-ai": true,
+    "ui-ux-pro-max@ui-ux-pro-max-skill": true,
+    "caveman@caveman": true,
+    "rea@rea": true,
+    "humanizer@humanizer": true
   },
   "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "juliusbrussee/caveman"
+      },
+      "autoUpdate": true
+    },
     "gsd-core": {
       "source": {
         "source": "github",
         "repo": "open-gsd/gsd-core"
-      }
+      },
+      "autoUpdate": true
     },
-    "pbakaus": {
+    "humanizer": {
+      "source": {
+        "source": "github",
+        "repo": "blader/humanizer"
+      },
+      "autoUpdate": true
+    },
+    "impeccable": {
       "source": {
         "source": "github",
         "repo": "pbakaus/impeccable"
-      }
+      },
+      "autoUpdate": true
     },
     "ponytail": {
       "source": {
         "source": "github",
         "repo": "DietrichGebert/ponytail"
-      }
+      },
+      "autoUpdate": true
+    },
+    "rea": {
+      "source": {
+        "source": "github",
+        "repo": "morluto/rea"
+      },
+      "autoUpdate": true
+    },
+    "ui-ux-pro-max-skill": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill"
+      },
+      "autoUpdate": true
     }
   },
-  "outputStyle": "Explanatory",
+  "outputStyle": "default",
   "sandbox": {
     "enabled": true,
     "failIfUnavailable": true,
