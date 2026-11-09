@@ -40,6 +40,13 @@ sudo apt install git stow -y
 
 This will symlink the configuration files into your home directory.
 
+3. Install the agent skills that `settings.json` can't declare. They need `uv` and Node 18 or later, both in the Brewfile (`brew bundle`):
+   ```bash
+   uv tool install graphifyy
+   graphify install
+   npx -y skills@1.7.6 add https://github.com/tt-a1i/archify --skill archify --agent claude-code --global --copy --yes
+   ```
+
 ---
 
 ## Removing symlinks

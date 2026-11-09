@@ -34,6 +34,14 @@ No build step, linter, or test suite, and no CI. For `.zsh` files the only real 
 
 `.stow-local-ignore` keeps `scripts/`, `README*`, `.idea`, and this `CLAUDE.md` out of the symlink tree, so none of them ever land in `$HOME`.
 
+### `scripts/fresh-install.sh` is unfinished
+
+A bootstrap script left in development. The maintainer doesn't run it. Don't use it as a reference for how setup works, and don't add install steps to it. The install path is the Stow and Brewfile flow under Commands.
+
+### Agent skills installed by CLI
+
+`graphify` and `archify` live in `~/.claude/skills/` and are installed by their own CLIs, so they are intentionally not tracked here. Don't vendor them into `dot-claude/`. The install commands are in the README, Installation step 3.
+
 ### zsh startup order
 
 Order matters here and is easy to break when editing:
